@@ -82,7 +82,7 @@ export const LeadershipCardsSection: React.FC = () => {
       </div>
 
       {/* ── 2. VÄRLDSKARTANS AURA FRÅN HERON (UnicornStudio-map i lugn takt) ── */}
-      <AuraBackground projectId="yWZ2Tbe094Fsjgy9NRnD" opacity={0.32} speedScale={0.25} className="scale-105 blur-[1px]" />
+      <AuraBackground projectId="yWZ2Tbe094Fsjgy9NRnD" opacity={0.32} speedScale={0.25} animated={false} className="scale-105" />
 
       {/* ── 3. MJUKA VINJETTER OCH LJUSGLÖD ── */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-transparent to-[#050505] pointer-events-none z-10" />
