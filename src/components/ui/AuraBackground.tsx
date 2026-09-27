@@ -7,6 +7,12 @@ interface AuraBackgroundProps {
   className?: string;
   opacity?: number;
   speedScale?: number;
+  /**
+   * false = lättviktig statisk gradient i stället för WebGL-scenen.
+   * Använd animerad aura högst en gång per sida (t.ex. i hero) – varje
+   * Unicorn Studio-scen är en fullskärms-WebGL-canvas som ritas varje frame.
+   */
+  animated?: boolean;
 }
 
 export const AuraBackground: React.FC<AuraBackgroundProps> = ({
@@ -14,8 +20,11 @@ export const AuraBackground: React.FC<AuraBackgroundProps> = ({
   className = "",
   opacity = 0.5,
   speedScale = 0.3,
+  animated = true,
 }) => {
   useEffect(() => {
+    if (!animated) return;
+
     const adjustSpeed = () => {
       if (window.UnicornStudio?.scenes) {
         window.UnicornStudio.scenes.forEach((scene: any) => {
@@ -54,15 +63,48 @@ export const AuraBackground: React.FC<AuraBackgroundProps> = ({
       setTimeout(adjustSpeed, 350);
       setTimeout(adjustSpeed, 1000);
     }
-  }, [projectId, speedScale]);
+  }, [projectId, speedScale, animated]);
+
+  // Blur-filter ovanpå en animerad canvas tvingar webbläsaren att räkna om
+  // oskärpan på hela ytan varje frame – vi tar bort det här centralt.
+  const safeClassName = className.replace(/\bblur-\[[^\]]*\]|\bblur(-\w+)?\b/g, "").trim();
+
+  if (!animated) {
+    return (
+      <div
+        className={`absolute inset-0 pointer-events-none overflow-hidden ${safeClassName}`}
+        style={{ opacity }}
+        aria-hidden="true"
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(60% 50% at 25% 30%, rgba(120,81,169,0.55) 0%, rgba(120,81,169,0) 70%)," +
+              "radial-gradient(50% 45% at 80% 70%, rgba(90,70,160,0.45) 0%, rgba(90,70,160,0) 70%)," +
+              "radial-gradient(40% 35% at 55% 50%, rgba(200,190,230,0.12) 0%, rgba(200,190,230,0) 70%)",
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
-      className={`absolute inset-0 pointer-events-none overflow-hidden transition-opacity duration-1000 ${className}`}
+      className={`absolute inset-0 pointer-events-none overflow-hidden transition-opacity duration-1000 ${safeClassName}`}
       style={{ opacity }}
+      aria-hidden="true"
     >
       <div
         data-us-project={projectId}
+        // Prestanda: rendera i halv upplösning, 1x dpi och 30 fps (bakgrunden är
+        // mjuk/suddig så skillnaden syns inte), starta först när den syns och
+        // stäng av på mobil.
+        data-us-scale="0.5"
+        data-us-dpi="1"
+        data-us-fps="30"
+        data-us-lazyload="true"
+        data-us-disablemobile="true"
         className="absolute inset-0 w-full h-full"
       />
     </div>
