@@ -6,6 +6,10 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { LeadershipCardsSection } from '@/components/sections/LeadershipCardsSection';
 
+// Skickar bilden via Vercels bildoptimering (webp/avif i rätt storlek per skärm)
+const opt = (src: string, w: number) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
+const optSet = (src: string, widths: number[]) => widths.map((w) => `${opt(src, w)} ${w}w`).join(", ");
+
 export const metadata: Metadata = {
   title: 'Ledning & Partners — Människorna bakom Hard Call Sales',
   description:
@@ -21,7 +25,10 @@ export default function LeadershipPage() {
       <section className="relative w-full min-h-[92vh] sm:min-h-screen flex flex-col justify-between overflow-hidden bg-white select-none pt-28 pb-12 sm:pb-16 border-b border-neutral-900">
         {/* Bakgrund: 2.5K Högupplöst arkitekturfoto som ramar in himlen */}
         <img
-          src="/images/architecture-skylight-framed.jpg"
+          src={opt("/images/architecture-skylight-framed.jpg", 1920)}
+          srcSet={optSet("/images/architecture-skylight-framed.jpg", [828, 1200, 1920, 2048])}
+          sizes="100vw"
+          decoding="async"
           alt="Hard Call Sales Ledningsarkitektur"
           className="absolute inset-0 w-full h-full object-cover object-center brightness-100 contrast-105 pointer-events-none"
         />
