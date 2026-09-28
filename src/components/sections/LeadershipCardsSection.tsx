@@ -169,7 +169,7 @@ export const LeadershipCardsSection: React.FC = () => {
                         src={leader.avatar}
                         alt={leader.name}
                         className="w-full h-full rounded-full object-cover grayscale contrast-115 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-500"
-                        style={leader.slug === "malin" ? { objectPosition: "50% 20%", transform: "scale(2.1)", transformOrigin: "48% 21%" } : undefined}
+                        style={leader.slug === "malin" ? { objectPosition: "50% 0%", transform: "scale(2.4)", transformOrigin: "50% 0%" } : undefined}
                       />
                     </div>
                   </div>
