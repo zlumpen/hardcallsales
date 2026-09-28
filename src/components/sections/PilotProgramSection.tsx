@@ -5,6 +5,10 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { openCalModal, DEFAULT_CAL_LINK } from "@/components/cal/CalProvider";
 
+// Skickar bilden via Vercels bildoptimering (webp/avif i rätt storlek per skärm)
+const opt = (src: string, w: number) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
+const optSet = (src: string, widths: number[]) => widths.map((w) => `${opt(src, w)} ${w}w`).join(", ");
+
 interface Milestone {
   stepNum: string;
   timeline: string;
@@ -91,7 +95,11 @@ export const PilotProgramSection: React.FC = () => {
       {/* ── 3. MASSIVT BERG I BOTTEN (+5% till, majestätisk förankring precis under texten) ── */}
       <div className="absolute bottom-[-2.5vh] sm:bottom-[-3.5vh] lg:bottom-[-4.5vh] left-0 right-0 w-full h-[46vh] sm:h-[52vh] lg:h-[58vh] pointer-events-none z-10 flex justify-center items-end overflow-hidden opacity-95">
         <img
-          src="/images/pilot-isolated-mountain.png"
+          src={opt("/images/pilot-isolated-mountain.png", 1920)}
+          srcSet={optSet("/images/pilot-isolated-mountain.png", [828, 1200, 1920, 2048])}
+          sizes="100vw"
+          loading="lazy"
+          decoding="async"
           alt="Hard Call Sales Snömassiv"
           className="w-full max-w-[2550px] xl:max-w-[2900px] h-full object-contain object-bottom pointer-events-none scale-115 sm:scale-120"
         />
