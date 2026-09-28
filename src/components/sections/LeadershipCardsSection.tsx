@@ -61,7 +61,7 @@ const LEADERS: LeaderCard[] = [
     name: "Kevin Eriksson",
     desc: "Specialist på datadriven outreach och snabb mötesbokning mot nordiska beslutsfattare inom IT, mjukvara och industriell tech.",
     slug: "kevin",
-    avatar: "/images/team/portrait-kevin.png",
+    avatar: "/images/team/team-kevin.webp",
   },
 ];
 
