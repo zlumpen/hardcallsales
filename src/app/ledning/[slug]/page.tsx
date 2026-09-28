@@ -110,7 +110,7 @@ const LEADERS_DATA: Record<string, LeaderData> = {
     name: "Kevin Eriksson",
     role: "Senior Mötesbokare & SDR",
     tagline: "Specialist på datadriven outreach och snabb mötesbokning mot nordiska beslutsfattare.",
-    image: "/images/team/portrait-kevin.png",
+    image: "/images/team/team-kevin.webp",
     linkedin: "https://www.linkedin.com/in/kevin-eriksson-b4b401112/",
     fullBio: [
       "Kevin har varit en central del av HCS leveransteam och har bokat hundratals affärskritiska möten för ledande IT- och SaaS-bolag.",
