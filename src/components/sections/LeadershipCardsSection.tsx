@@ -17,9 +17,9 @@ interface LeaderCard {
 const LEADERS: LeaderCard[] = [
   {
     num: "/01",
-    roleTag: "VD & Partner (Sverige)",
+    roleTag: "Head of AI Sales",
     name: "Malin Berlin",
-    desc: "Toppsäljare med över 250 000 kr i månadsprovision. Leder det svenska kontoret och ansvarar för europeiska kundrelationer och nya samarbetsavtal.",
+    desc: "Malin leder det svenska kontoret och ansvarar för AI Sales, europeiska kundrelationer och samarbetsavtal.",
     slug: "malin",
     avatar: "/images/team/team-malin.webp",
   },
