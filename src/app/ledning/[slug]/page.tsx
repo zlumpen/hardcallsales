@@ -24,7 +24,7 @@ const LEADERS_DATA: Record<string, LeaderData> = {
     name: "Malin Berlin",
     role: "VD & Partner (Sverige)",
     tagline: "Ansvarig för kundrelationer i Europa och ledare för det svenska kontoret.",
-    image: "https://eventpartner.io/Images/Team/malin-farg.webp",
+    image: "/images/team/team-malin.webp",
     linkedin: "https://www.linkedin.com/in/malinberlins/",
     fullBio: [
       "Jag kom ner till Malta i slutet av 2017 med ett tydligt mål: att tjäna ihop till en lägenhet på Östermalm utan lån innan jag fyllde 25.",
@@ -42,7 +42,7 @@ const LEADERS_DATA: Record<string, LeaderData> = {
     name: "Pontus Bredal-Hansen",
     role: "Grundare & Partner",
     tagline: "Grundare sedan 2017, pipeline-strateg och arkitekten bakom nätverksmodellen.",
-    image: "https://eventpartner.io/Images/Team/pontus.webp",
+    image: "/images/team/team-pontus.webp",
     linkedin: "https://www.linkedin.com/in/pontus-bredal-hansen-51a07a110/",
     fullBio: [
       "Jag har jobbat med försäljning i hela mitt vuxna liv. De sista åren innan vi drog igång Hard Call Sales jobbade jag på ett av Sveriges största mötesbokningsföretag – och efter att ha toppat intäktslistan varje månad i över ett år kände jag att det var dags att bygga något eget.",
@@ -60,7 +60,7 @@ const LEADERS_DATA: Record<string, LeaderData> = {
     name: "Joakim Ström",
     role: "Grundare & Operativ chef",
     tagline: "Grundare sedan 2017, operativ ledare och säljkulturens ryggrad.",
-    image: "https://eventpartner.io/Images/Team/joakim.webp",
+    image: "/images/team/team-joakim.webp",
     linkedin: "https://www.linkedin.com/in/joakim-strom-ab5aaa13a/",
     fullBio: [
       "Jag har alltid gillat affärer – redan som liten sålde jag golfbollar jag dykt upp eller samlade pant på festivaler som sjuåring. Jag har inga problem med att jobba sju dagar i veckan om det krävs.",
@@ -78,7 +78,7 @@ const LEADERS_DATA: Record<string, LeaderData> = {
     name: "Johanna Glaad",
     role: "Team Lead & Senior Mötesbokare",
     tagline: "Leder dagliga SDR-team och driver kvalitet och show-rate mot nordiska enterprise-konton.",
-    image: "https://eventpartner.io/Images/Team/johanna.webp",
+    image: "/images/team/team-johanna.webp",
     linkedin: "https://www.linkedin.com/in/johanna-glaad-635288156/",
     fullBio: [
       "Johanna leder våra operativa säljteam och kvalitetssäkrar att varje bokat möte uppfyller kundens exakta kravprofil.",
@@ -94,7 +94,7 @@ const LEADERS_DATA: Record<string, LeaderData> = {
     name: "Joakim Lundin",
     role: "Senior Mötesbokare & Key Account",
     tagline: "Specialist på komplex B2B-mötesbokning mot VD, IT-chefer och industriella beslutsfattare.",
-    image: "https://eventpartner.io/Images/Team/joakim-lundin.webp",
+    image: "/images/team/team-lundin.webp",
     linkedin: "https://www.linkedin.com/in/joakim-lundin-44b76410b/",
     fullBio: [
       "Joakim har mångårig erfarenhet av att etablera kontakt med svåråtkomliga C-level-beslutsfattare inom tech och industri.",
