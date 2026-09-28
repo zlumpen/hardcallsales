@@ -6,6 +6,10 @@ import { ArrowRight, TrendingUp, CheckCircle2, ChevronDown, ChevronUp, Sparkles,
 import { HCS_STORIES, type CaseStory } from "@/data/caseStoriesData";
 import { openCalModal, DEFAULT_CAL_LINK } from "@/components/cal/CalProvider";
 
+// Skickar bilden via Vercels bildoptimering (webp/avif i rätt storlek per skärm)
+const opt = (src: string, w: number) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
+const optSet = (src: string, widths: number[]) => widths.map((w) => `${opt(src, w)} ${w}w`).join(", ");
+
 export { HCS_STORIES };
 
 export function StoryCard({ story }: { story: typeof HCS_STORIES[0] }) {
@@ -58,7 +62,9 @@ export function StoryCard({ story }: { story: typeof HCS_STORIES[0] }) {
         <div className="h-14 sm:h-18 flex items-center justify-start">
           {story.logo ? (
             <img
-              src={story.logo}
+              src={story.logo.endsWith(".svg") ? story.logo : opt(story.logo, 640)}
+              loading="lazy"
+              decoding="async"
               alt={story.client}
               className="max-h-12 sm:max-h-16 w-auto max-w-[240px] sm:max-w-[300px] object-contain object-left opacity-95 group-hover:opacity-100 transition-opacity duration-200"
             />
