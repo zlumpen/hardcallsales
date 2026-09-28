@@ -12,12 +12,12 @@ export const SmoothScroll: React.FC<{ children: React.ReactNode }> = ({ children
     gsap.registerPlugin(ScrollTrigger);
 
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.8,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 0.95,
+      wheelMultiplier: 1,
     });
 
     lenis.on("scroll", ScrollTrigger.update);
@@ -27,7 +27,6 @@ export const SmoothScroll: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     gsap.ticker.add(updateTicker);
-    gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.destroy();
