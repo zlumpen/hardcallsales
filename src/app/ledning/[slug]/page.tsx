@@ -22,7 +22,7 @@ interface LeaderData {
 const LEADERS_DATA: Record<string, LeaderData> = {
   malin: {
     name: "Malin Berlin",
-    role: "VD & Partner (Sverige)",
+    role: "Head of AI Sales",
     tagline: "Ansvarig för kundrelationer i Europa och ledare för det svenska kontoret.",
     image: "/images/team/team-malin.webp",
     linkedin: "https://www.linkedin.com/in/malinberlins/",
