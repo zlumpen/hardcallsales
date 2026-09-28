@@ -21,7 +21,7 @@ const LEADERS: LeaderCard[] = [
     name: "Malin Berlin",
     desc: "Toppsäljare med över 250 000 kr i månadsprovision. Leder det svenska kontoret och ansvarar för europeiska kundrelationer och nya samarbetsavtal.",
     slug: "malin",
-    avatar: "https://eventpartner.io/Images/Team/malin-farg.webp",
+    avatar: "/images/team/team-malin.webp",
   },
   {
     num: "/02",
@@ -29,7 +29,7 @@ const LEADERS: LeaderCard[] = [
     name: "Pontus Bredal-Hansen",
     desc: "Startade HCS på Malta 2017 efter att ha toppat intäktslistorna. Arkitekten bakom kampanjmetodiken, nätverksbygget och vår AI-integration.",
     slug: "pontus",
-    avatar: "https://eventpartner.io/Images/Team/pontus.webp",
+    avatar: "/images/team/team-pontus.webp",
   },
   {
     num: "/03",
@@ -37,7 +37,7 @@ const LEADERS: LeaderCard[] = [
     name: "Joakim Ström",
     desc: "Startade HCS 2017. Passionerad sälj- och kulturbyggare med över 100 lästa säljböcker som leder den dagliga säljleveransen med kompromisslös energi.",
     slug: "joakim",
-    avatar: "https://eventpartner.io/Images/Team/joakim.webp",
+    avatar: "/images/team/team-joakim.webp",
   },
   {
     num: "/04",
@@ -45,7 +45,7 @@ const LEADERS: LeaderCard[] = [
     name: "Johanna Glaad",
     desc: "Leder dagliga SDR-team och onboarding med kompromisslöst fokus på show rate och hög möteskvalitet för nordiska enterprise- och SaaS-kunder.",
     slug: "johanna",
-    avatar: "https://eventpartner.io/Images/Team/johanna.webp",
+    avatar: "/images/team/team-johanna.webp",
   },
   {
     num: "/05",
@@ -53,7 +53,7 @@ const LEADERS: LeaderCard[] = [
     name: "Joakim Lundin",
     desc: "Toppsäljare med mångårig vana av komplex mötesbokning mot VD och IT-chefer inom svensk tech, industri och fastighetssektorn.",
     slug: "lundin",
-    avatar: "https://eventpartner.io/Images/Team/joakim-lundin.webp",
+    avatar: "/images/team/team-lundin.webp",
   },
   {
     num: "/06",
@@ -164,11 +164,14 @@ export const LeadershipCardsSection: React.FC = () => {
 
                   {/* ── AVATAR: Cirkulärt porträtt med vit silverram ── */}
                   <div className="relative w-18 h-18 sm:w-20 sm:h-20 rounded-full p-1 bg-white/[0.04] border border-white/15 group-hover:border-white/60 transition-all duration-500 shadow-md mb-6">
-                    <img
-                      src={leader.avatar}
-                      alt={leader.name}
-                      className="w-full h-full rounded-full object-cover grayscale contrast-115 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-500"
-                    />
+                    <div className="w-full h-full rounded-full overflow-hidden">
+                      <img
+                        src={leader.avatar}
+                        alt={leader.name}
+                        className="w-full h-full rounded-full object-cover grayscale contrast-115 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-500"
+                        style={leader.slug === "malin" ? { objectPosition: "50% 20%", transform: "scale(2.1)", transformOrigin: "48% 21%" } : undefined}
+                      />
+                    </div>
                   </div>
 
                   {/* ── NAMN & BESKRIVNING ── */}
