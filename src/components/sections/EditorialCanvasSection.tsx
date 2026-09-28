@@ -3,6 +3,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { CloudFogShader } from "@/components/ui/CloudFogShader";
 
+// Skickar bilden via Vercels bildoptimering (webp/avif i rätt storlek per skärm)
+const opt = (src: string, w: number) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
+const optSet = (src: string, widths: number[]) => widths.map((w) => `${opt(src, w)} ${w}w`).join(", ");
+
 export const EditorialCanvasSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -77,7 +81,10 @@ export const EditorialCanvasSection: React.FC = () => {
           }`}
         >
           <img
-            src="/images/architecture-oculus-4k.jpg"
+            src={opt("/images/architecture-oculus-4k.jpg", 1920)}
+            srcSet={optSet("/images/architecture-oculus-4k.jpg", [828, 1200, 1920, 2048])}
+            sizes="100vw"
+            decoding="async"
             alt="Arkitektonisk oculus"
             className="w-full h-full object-cover object-center transition-transform duration-500 ease-out"
             style={{
@@ -96,7 +103,11 @@ export const EditorialCanvasSection: React.FC = () => {
           }`}
         >
           <img
-            src="/images/architecture-esplanade-clean.png"
+            src={opt("/images/architecture-esplanade-clean.png", 1200)}
+            srcSet={optSet("/images/architecture-esplanade-clean.png", [640, 828, 1080, 1200, 1920])}
+            sizes="(min-width: 1280px) 820px, (min-width: 1024px) 720px, (min-width: 768px) 600px, (min-width: 640px) 500px, 360px"
+            loading="lazy"
+            decoding="async"
             alt="Geometrisk kupol"
             className="block w-[360px] sm:w-[500px] md:w-[600px] lg:w-[720px] xl:w-[820px] h-auto object-contain object-bottom-left origin-bottom-left"
             style={{
