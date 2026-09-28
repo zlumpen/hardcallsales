@@ -41,7 +41,7 @@ export const HCS_STORIES: CaseStory[] = [
   {
     id: "monster",
     client: "Monster",
-    logo: "/images/logos/logo-monster.png",
+    logo: "/images/logos/logo-monster-white.svg",
     industry: "B2B HR-Tech & Rekrytering",
     event: "120+ bokade möten med HR-chefer & VD över hela Norden",
     teaser: "I flera omgångar har vi stöttat Monsters svenska säljteam med mötesbokning mot relevanta beslutsfattare i samband med lanseringen av nya tjänster.",
