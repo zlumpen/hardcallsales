@@ -90,7 +90,7 @@ export const ScrollMetricsStorySection: React.FC = () => {
         </div>
 
         {/* ── 2. JORDGLOBENS AURA FRÅN SEKTIONEN INNAN (UnicornStudio World Aura) ── */}
-        <AuraBackground projectId="yWZ2Tbe094Fsjgy9NRnD" opacity={0.32} speedScale={0.25} className="scale-105 blur-[1px]" />
+        <AuraBackground projectId="yWZ2Tbe094Fsjgy9NRnD" opacity={0.32} speedScale={0.25} animated={false} className="scale-105" />
 
         {/* ── 3. MJUKA VINJETTER OCH TOPP/BOTTEN FADE MOT SVÄRTA ── */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-transparent to-[#050505]/80 pointer-events-none z-[1]" />
