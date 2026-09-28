@@ -21,7 +21,7 @@ const LEADERS: LeaderCard[] = [
     name: "Malin Berlin",
     desc: "Toppsäljare med över 250 000 kr i månadsprovision. Leder det svenska kontoret och ansvarar för europeiska kundrelationer och nya samarbetsavtal.",
     slug: "malin",
-    avatar: "/images/team/portrait-malin.png",
+    avatar: "https://eventpartner.io/Images/Team/malin-farg.webp",
   },
   {
     num: "/02",
@@ -29,7 +29,7 @@ const LEADERS: LeaderCard[] = [
     name: "Pontus Bredal-Hansen",
     desc: "Startade HCS på Malta 2017 efter att ha toppat intäktslistorna. Arkitekten bakom kampanjmetodiken, nätverksbygget och vår AI-integration.",
     slug: "pontus",
-    avatar: "/images/team/portrait-pontus.png",
+    avatar: "https://eventpartner.io/Images/Team/pontus.webp",
   },
   {
     num: "/03",
@@ -37,7 +37,7 @@ const LEADERS: LeaderCard[] = [
     name: "Joakim Ström",
     desc: "Startade HCS 2017. Passionerad sälj- och kulturbyggare med över 100 lästa säljböcker som leder den dagliga säljleveransen med kompromisslös energi.",
     slug: "joakim",
-    avatar: "/images/team/portrait-joakim.png",
+    avatar: "https://eventpartner.io/Images/Team/joakim.webp",
   },
   {
     num: "/04",
@@ -45,7 +45,7 @@ const LEADERS: LeaderCard[] = [
     name: "Johanna Glaad",
     desc: "Leder dagliga SDR-team och onboarding med kompromisslöst fokus på show rate och hög möteskvalitet för nordiska enterprise- och SaaS-kunder.",
     slug: "johanna",
-    avatar: "/images/team/portrait-johanna.png",
+    avatar: "https://eventpartner.io/Images/Team/johanna.webp",
   },
   {
     num: "/05",
@@ -53,7 +53,7 @@ const LEADERS: LeaderCard[] = [
     name: "Joakim Lundin",
     desc: "Toppsäljare med mångårig vana av komplex mötesbokning mot VD och IT-chefer inom svensk tech, industri och fastighetssektorn.",
     slug: "lundin",
-    avatar: "/images/team/portrait-lundin.png",
+    avatar: "https://eventpartner.io/Images/Team/joakim-lundin.webp",
   },
   {
     num: "/06",
