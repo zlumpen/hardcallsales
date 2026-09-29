@@ -4,7 +4,7 @@ import { languageAlternates } from "@/i18n/config";
 import { LinkedClientView } from "@/views/LinkedClientView";
 
 export const metadata: Metadata = {
-  title: "LinkedClient — Autonom AI-Säljagent för B2B | Hard Call Sales",
+  title: "LinkedClient — Autonom AI-Säljagent för B2B",
   description:
     "Världens första AI-Sales agent som kombinerar autonom AI-prospektering och hyper-personaliserad kontakt med seniora säljares telefonavslut. Certifierad partner.",
   openGraph: {
