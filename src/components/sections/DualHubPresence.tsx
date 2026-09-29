@@ -1,11 +1,39 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { MapPin, Phone, Mail, Clock, CheckCircle2, Globe2, Sun, Building } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
-import { HUBS } from "@/data/team";
+import { getHubs } from "@/data/team";
+import { useLocale, useLocalizedHref } from "@/i18n/useLocale";
+
+const COPY = {
+  sv: {
+    badge: "VÅRA KONTOR & HUBBAR",
+    title: "Stockholm & Malta — Två samverkande kraftcenter",
+    subtitle: "Vi kombinerar strategisk närhet till Nordens tech-ekosystem med ett högpresterande operativt säljnav i Medelhavet.",
+    roleFocus: "Primärt verksamhetsfokus:",
+    visitTitle: "Vill ni besöka oss på plats i Stockholm eller på Malta?",
+    visitBody: "Vi välkomnar kunder och samarbetspartners till båda våra kontor för uppstartsworkshops och strategimöten.",
+    visitCta: "Boka möte med ledningen",
+  },
+  en: {
+    badge: "OUR OFFICES & HUBS",
+    title: "Stockholm & Malta — Two powerhouses working as one",
+    subtitle: "We combine strategic proximity to the Nordic tech ecosystem with a high-performing operational sales hub in the Mediterranean.",
+    roleFocus: "Primary focus:",
+    visitTitle: "Want to visit us in person in Stockholm or Malta?",
+    visitBody: "We welcome clients and partners to both of our offices for kickoff workshops and strategy meetings.",
+    visitCta: "Book a meeting with leadership",
+  },
+} as const;
 
 export const DualHubPresence: React.FC = () => {
+  const locale = useLocale();
+  const t = COPY[locale];
+  const lh = useLocalizedHref();
+  const HUBS = getHubs(locale);
   return (
     <section id="kontor" className="w-full bg-[#0A0A0A] text-white py-20 sm:py-28 border-b border-[#2B2B2B] relative overflow-hidden">
       {/* Background Lighting */}
@@ -17,13 +45,13 @@ export const DualHubPresence: React.FC = () => {
         <div className="max-w-3xl mb-14 sm:mb-20">
           <Badge variant="purple-soft" size="md" className="mb-4">
             <Globe2 size={14} className="text-[#7851A9] mr-1.5" />
-            <span>VÅRA KONTOR & HUBBAR</span>
+            <span>{t.badge}</span>
           </Badge>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white leading-tight mb-4">
-            Stockholm & Malta — Två samverkande kraftcenter
+            {t.title}
           </h2>
           <p className="text-sm sm:text-base text-[#A8A8A8]">
-            Vi kombinerar strategisk närhet till Nordens tech-ekosystem med ett högpresterande operativt säljnav i Medelhavet.
+            {t.subtitle}
           </p>
         </div>
 
@@ -74,7 +102,7 @@ export const DualHubPresence: React.FC = () => {
                 {/* Role Focus */}
                 <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 mb-6">
                   <span className="text-[11px] font-semibold text-[#7851A9] uppercase tracking-wider block mb-1">
-                    Primärt verksamhetsfokus:
+                    {t.roleFocus}
                   </span>
                   <p className="text-xs text-[#EDEDED] font-medium">
                     {hub.roleFocus}
@@ -128,17 +156,17 @@ export const DualHubPresence: React.FC = () => {
         <div className="rounded-2xl bg-white/[0.02] border border-white/10 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 backdrop-blur-sm">
           <div className="space-y-1">
             <h4 className="text-base font-semibold text-white">
-              Vill ni besöka oss på plats i Stockholm eller på Malta?
+              {t.visitTitle}
             </h4>
             <p className="text-xs sm:text-sm text-[#A8A8A8]">
-              Vi välkomnar kunder och samarbetspartners till båda våra kontor för uppstartsworkshops och strategimöten.
+              {t.visitBody}
             </p>
           </div>
           <Link
-            href="/boka-mote"
+            href={lh("/boka-mote")}
             className="h-11 px-6 rounded-full bg-[#7851A9] text-white font-semibold text-xs hover:bg-[#8F6BC1] transition-colors flex items-center justify-center shrink-0"
           >
-            Boka möte med ledningen
+            {t.visitCta}
           </Link>
         </div>
 

@@ -19,7 +19,39 @@ import {
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { SERVICES } from "@/data/services";
+import { getServices } from "@/data/services";
+import { useLocale, useLocalizedHref } from "@/i18n/useLocale";
+
+const COPY = {
+  sv: {
+    badge: "Djupdykning & Leveransomfattning",
+    title: "Varje del i säljmaskineriet, förklarad i detalj",
+    introLine1: "Vi bygger skräddarsydda säljmotorer anpassade efter er idealkundprofil, er marknad och era tillväxtmål.",
+    introLine2: "Här är vad som ingår i respektive tjänst.",
+    allServices: "Alla tjänster (6)",
+    methodology: "Vår Metodik & Exekvering",
+    targetPersona: "Primär målgrupp: ",
+    bookFor: "Boka möte för",
+    roiLink: "Se ROI-kalkyl & jämförelse →",
+    deliverables: "Konkreta Leverabler",
+    quality: "Garanterad kvalitet",
+    tools: "Verktyg & Systemkopplingar",
+  },
+  en: {
+    badge: "Deep Dive & Scope of Delivery",
+    title: "Every part of the sales engine, explained in detail",
+    introLine1: "We build custom sales engines tailored to your ideal customer profile, your market and your growth targets.",
+    introLine2: "Here is what each service includes.",
+    allServices: "All services (6)",
+    methodology: "Our Methodology & Execution",
+    targetPersona: "Primary audience: ",
+    bookFor: "Book a meeting about",
+    roiLink: "See ROI calculation & comparison →",
+    deliverables: "Concrete Deliverables",
+    quality: "Guaranteed quality",
+    tools: "Tools & System Integrations",
+  },
+} as const;
 
 // Helper to get corresponding Lucide icon
 const getServiceIcon = (iconName: string, size = 24) => {
@@ -44,6 +76,10 @@ const getServiceIcon = (iconName: string, size = 24) => {
 };
 
 export const ServicesDeepDive: React.FC = () => {
+  const locale = useLocale();
+  const t = COPY[locale];
+  const lh = useLocalizedHref();
+  const SERVICES = getServices(locale);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const filteredServices =
@@ -63,14 +99,15 @@ export const ServicesDeepDive: React.FC = () => {
         <div className="max-w-3xl mb-12 sm:mb-16">
           <Badge variant="purple-soft" size="md" className="mb-4">
             <Sparkles size={13} className="text-[#7851A9] mr-1" />
-            <span>Djupdykning & Leveransomfattning</span>
+            <span>{t.badge}</span>
           </Badge>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">
-            Varje del i säljmaskineriet, förklarad i detalj
+            {t.title}
           </h2>
           <p className="text-base sm:text-lg text-[#A8A8A8] font-normal leading-relaxed">
-            Vi bygger skräddarsydda säljmotorer anpassade efter er idealkundprofil, er marknad och era tillväxtmål.
-            Här är vad som ingår i respektive tjänst.
+            {t.introLine1}
+            {" "}
+            {t.introLine2}
           </p>
         </div>
 
@@ -84,7 +121,7 @@ export const ServicesDeepDive: React.FC = () => {
                 : "bg-white/5 text-[#A8A8A8] hover:text-white hover:bg-white/10 border border-white/10"
             }`}
           >
-            Alla tjänster (6)
+            {t.allServices}
           </button>
           {SERVICES.map((s) => (
             <button
@@ -165,7 +202,7 @@ export const ServicesDeepDive: React.FC = () => {
                           <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/10 mb-6">
                             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white mb-2">
                               <Zap size={14} className="text-[#7851A9]" />
-                              <span>Vår Metodik & Exekvering</span>
+                              <span>{t.methodology}</span>
                             </div>
                             <p className="text-xs sm:text-sm text-[#A8A8A8] leading-relaxed">
                               {service.methodology}
@@ -178,7 +215,7 @@ export const ServicesDeepDive: React.FC = () => {
                           <div className="flex items-start gap-3 p-3.5 sm:p-4 rounded-xl bg-[#7851A9]/10 border border-[#7851A9]/30 text-xs sm:text-sm text-[#EDEDED] mb-6">
                             <UserCheck size={17} className="text-[#7851A9] shrink-0 mt-0.5" />
                             <div>
-                              <span className="font-semibold text-white">Primär målgrupp: </span>
+                              <span className="font-semibold text-white">{t.targetPersona}</span>
                               <span className="text-[#A8A8A8]">{service.targetPersona}</span>
                             </div>
                           </div>
@@ -188,18 +225,18 @@ export const ServicesDeepDive: React.FC = () => {
                       {/* CTA Button */}
                       <div className="pt-4 border-t border-white/10 flex flex-wrap items-center gap-4">
                         <Button
-                          href={`/boka-mote?service=${service.id}`}
+                          href={lh(`/boka-mote?service=${service.id}`)}
                           variant="primary"
                           size="md"
                           hasArrow
                         >
-                          Boka möte för {service.title.split(" ")[0]}
+                          {t.bookFor} {service.title.split(" ")[0]}
                         </Button>
                         <Link
                           href="#jamforelse"
                           className="text-xs sm:text-sm font-medium text-[#A8A8A8] hover:text-white transition-colors"
                         >
-                          Se ROI-kalkyl & jämförelse →
+                          {t.roiLink}
                         </Link>
                       </div>
                     </div>
@@ -209,10 +246,10 @@ export const ServicesDeepDive: React.FC = () => {
                       <div>
                         <div className="flex items-center justify-between pb-3 mb-5 border-b border-white/10">
                           <span className="text-xs font-semibold uppercase tracking-wider text-white">
-                            Konkreta Leverabler
+                            {t.deliverables}
                           </span>
                           <span className="text-[11px] text-[#7851A9] font-mono">
-                            Garanterad kvalitet
+                            {t.quality}
                           </span>
                         </div>
 
@@ -233,7 +270,7 @@ export const ServicesDeepDive: React.FC = () => {
                       {service.tools && service.tools.length > 0 && (
                         <div className="pt-4 border-t border-white/10">
                           <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6E6E6E] block mb-2.5">
-                            Verktyg & Systemkopplingar
+                            {t.tools}
                           </span>
                           <div className="flex flex-wrap gap-1.5">
                             {service.tools.map((tool, tIdx) => (

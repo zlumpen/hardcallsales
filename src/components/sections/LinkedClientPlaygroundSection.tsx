@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { RotateCcw, Mic, ArrowUp, Users, Send, Clock, UserCheck } from "lucide-react";
+import { useLocale } from "@/i18n/useLocale";
+import type { Locale } from "@/i18n/config";
 
 interface Scenario {
   id: string;
@@ -16,12 +18,18 @@ interface Scenario {
   agentReply: string;
 }
 
-const scenarios: Scenario[] = [
+const SCENARIO_ICONS: Record<string, React.ReactNode> = {
+  networking: <Users className="w-4 h-4 text-[#38BDF8]" />,
+  cold_prospecting: <Send className="w-4 h-4 text-[#38BDF8]" />,
+  followup: <Clock className="w-4 h-4 text-[#38BDF8]" />,
+  network_outreach: <UserCheck className="w-4 h-4 text-[#38BDF8]" />,
+};
+
+const SCENARIOS_SV: Omit<Scenario, "icon">[] = [
   {
     id: "networking",
     tabTitle: "Nätverksbyggande",
     tabSubtitle: "500–1 000 nya relevanta kontakter / månad",
-    icon: <Users className="w-4 h-4 text-[#38BDF8]" />,
     prospectName: "David Lindgren",
     prospectRole: "COO, Industriell Automation",
     agentInitialMessage:
@@ -35,7 +43,6 @@ const scenarios: Scenario[] = [
     id: "cold_prospecting",
     tabTitle: "Kall Prospektering",
     tabSubtitle: "Kvalificerar intresse och bryter isen 24/7",
-    icon: <Send className="w-4 h-4 text-[#38BDF8]" />,
     prospectName: "Helena Sjöberg",
     prospectRole: "Head of Sales, Enterprise B2B",
     agentInitialMessage:
@@ -49,7 +56,6 @@ const scenarios: Scenario[] = [
     id: "followup",
     tabTitle: "Mötesuppföljning",
     tabSubtitle: "Återaktiverar dialoger med perfekt tajming",
-    icon: <Clock className="w-4 h-4 text-[#38BDF8]" />,
     prospectName: "Johan Wallin",
     prospectRole: "VD, Tillverkande Industri",
     agentInitialMessage:
@@ -63,7 +69,6 @@ const scenarios: Scenario[] = [
     id: "network_outreach",
     tabTitle: "Outreach mot Nuvarande Nätverk",
     tabSubtitle: "Aktiverar 15 000–30 000 uppbyggda kontakter",
-    icon: <UserCheck className="w-4 h-4 text-[#38BDF8]" />,
     prospectName: "Marcus Berg",
     prospectRole: "Head of Partnerships, Tech",
     agentInitialMessage:
@@ -75,7 +80,112 @@ const scenarios: Scenario[] = [
   },
 ];
 
+const SCENARIOS_EN: Omit<Scenario, "icon">[] = [
+  {
+    id: "networking",
+    tabTitle: "Network Building",
+    tabSubtitle: "500–1,000 new relevant connections / month",
+    prospectName: "David Lindgren",
+    prospectRole: "COO, Industrial Automation",
+    agentInitialMessage:
+      "Hi David! I've been following your expansion in industrial automation. I'd love to connect here on LinkedIn to follow your journey and swap insights.",
+    prospectReply:
+      "Thanks! Happy to accept. I see you work with several companies in our sector.",
+    agentReply:
+      "We do. Many people in your role are noticing that the market demands more proactivity right now. Do you have time for a 10-minute virtual coffee next week?",
+  },
+  {
+    id: "cold_prospecting",
+    tabTitle: "Cold Prospecting",
+    tabSubtitle: "Qualifies interest and breaks the ice 24/7",
+    prospectName: "Helena Sjöberg",
+    prospectRole: "Head of Sales, Enterprise B2B",
+    agentInitialMessage:
+      "Hi Helena! I saw you're hiring sales reps. Curious how you make sure your senior reps have time for customer meetings instead of manual research?",
+    prospectReply:
+      "We already have tools for lead lists and handle quite a lot of it ourselves right now.",
+    agentReply:
+      "Totally understand. Our AI agent qualifies prospects and books the meeting straight into the calendar, so your reps never touch the lists. Would 10 minutes on Tuesday work to see the difference?",
+  },
+  {
+    id: "followup",
+    tabTitle: "Meeting Follow-up",
+    tabSubtitle: "Reactivates conversations with perfect timing",
+    prospectName: "Johan Wallin",
+    prospectRole: "CEO, Manufacturing",
+    agentInitialMessage:
+      "Hi Johan! We spoke about your pipeline ahead of the budget round. How did the Q2 priorities land?",
+    prospectReply:
+      "The budget is in place now, but I'm swamped with the launch for the next two weeks.",
+    agentReply:
+      "Congrats on the budget, Johan! I won't interrupt during the launch. I'll tentatively reserve Thursday the 24th, once the dust has settled. Does 1:00 PM work?",
+  },
+  {
+    id: "network_outreach",
+    tabTitle: "Outreach to Your Existing Network",
+    tabSubtitle: "Activates 15,000–30,000 established connections",
+    prospectName: "Marcus Berg",
+    prospectRole: "Head of Partnerships, Tech",
+    agentInitialMessage:
+      "Hi Marcus! I saw you rolled out your new offering. We recently helped several people in your network turn dormant connections into real meetings.",
+    prospectReply:
+      "Actually, that sounds interesting. How does it work?",
+    agentReply:
+      "Our AI scans your connections for buying signals and sends precisely targeted messages. I just sent a 1-minute video to your inbox. Do you have 10 minutes on Thursday?",
+  },
+];
+
+const SCENARIOS: Record<Locale, Omit<Scenario, "icon">[]> = { sv: SCENARIOS_SV, en: SCENARIOS_EN };
+
+const COPY = {
+  sv: {
+    badge: "Autonomt nätverksbyggande & mötesbokning",
+    heading: "Bygg ett nätverk av 15 000–30 000 relevanta beslutsfattare",
+    introPre: "LinkedClient bygger ditt nätverk successivt med ",
+    introStrong: "500–1 000 nya relevanta kontakter i månaden",
+    introPost: ". På 2–3 år har ni en egen affärstillgång på 15 000–30 000 kvalificerade B2B-relationer. Du skräddarsyr alla interaktioner och kontaktpunkter helt efter era egna affärsmål.",
+    stat1Value: "+500–1 000",
+    stat1Label: " nya kontakter/mån",
+    stat2Value: "15 000–30 000",
+    stat2Label: " på 2–3 år",
+    stat3: "100% skräddarsydda kontaktpunkter",
+    footnote: "Varje scenario konfigureras med era unika målgrupper, tonalitet och konverteringsmål — AI-agenten sköter dialogen, era säljare tar över när mötet är bokat.",
+    orbAlt: "Sales Agent Orb",
+    agentName: "Sales Agent",
+    playground: "Playground · ",
+    replay: "Spela upp sekvens igen",
+    thinking: "Thinking...",
+    askAgent: "Ask the agent",
+    voice: "Röststyrning",
+    send: "Skicka meddelande",
+  },
+  en: {
+    badge: "Autonomous network building & appointment setting",
+    heading: "Build a network of 15,000–30,000 relevant decision-makers",
+    introPre: "LinkedClient grows your network steadily with ",
+    introStrong: "500–1,000 new relevant connections per month",
+    introPost: ". Within 2–3 years you own a business asset of 15,000–30,000 qualified B2B relationships. Every interaction and touchpoint is tailored entirely to your own business goals.",
+    stat1Value: "+500–1,000",
+    stat1Label: " new connections/mo",
+    stat2Value: "15,000–30,000",
+    stat2Label: " in 2–3 years",
+    stat3: "100% tailored touchpoints",
+    footnote: "Every scenario is configured around your unique audiences, tone of voice and conversion goals. The AI agent handles the conversation; your reps take over once the meeting is booked.",
+    orbAlt: "Sales agent orb",
+    agentName: "Sales Agent",
+    playground: "Playground · ",
+    replay: "Replay sequence",
+    thinking: "Thinking...",
+    askAgent: "Ask the agent",
+    voice: "Voice control",
+    send: "Send message",
+  },
+} as const;
+
 export const LinkedClientPlaygroundSection: React.FC = () => {
+  const locale = useLocale();
+  const t = COPY[locale];
+  const scenarios: Scenario[] = SCENARIOS[locale].map((sc) => ({ ...sc, icon: SCENARIO_ICONS[sc.id] }));
   const [activeScenarioId, setActiveScenarioId] = useState<string>("networking");
   // animStage: 0: reset, 1: msg1 visible, 2: msg2 visible, 2.5: thinking, 3: msg3 visible
   const [animStage, setAnimStage] = useState<number>(3);
@@ -120,29 +230,29 @@ export const LinkedClientPlaygroundSection: React.FC = () => {
         <div className="mb-14 sm:mb-20">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.05] border border-white/10 text-neutral-300 text-xs font-mono mb-5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
-            <span>Autonomt nätverksbyggande & mötesbokning</span>
+            <span>{t.badge}</span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-end">
             <div className="lg:col-span-7">
               <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-normal tracking-tight text-white leading-[1.14]">
-                Bygg ett nätverk av 15 000–30 000 relevanta beslutsfattare
+                {t.heading}
               </h2>
             </div>
             <div className="lg:col-span-5">
               <p className="text-sm sm:text-base text-neutral-400 font-light leading-relaxed">
-                LinkedClient bygger ditt nätverk successivt med <strong className="text-white font-medium">500–1 000 nya relevanta kontakter i månaden</strong>. På 2–3 år har ni en egen affärstillgång på 15 000–30 000 kvalificerade B2B-relationer. Du skräddarsyr alla interaktioner och kontaktpunkter helt efter era egna affärsmål.
+                {t.introPre}<strong className="text-white font-medium">{t.introStrong}</strong>{t.introPost}
               </p>
             </div>
           </div>
 
           {/* Quick Stats Banner */}
           <div className="flex flex-wrap items-center gap-3 pt-6 mt-6 border-t border-white/[0.08] text-xs font-mono text-neutral-400">
-            <span className="text-[#38BDF8] font-semibold">+500–1 000</span> nya kontakter/mån
+            <span className="text-[#38BDF8] font-semibold">{t.stat1Value}</span>{t.stat1Label}
             <span className="text-white/20">•</span>
-            <span className="text-white font-semibold">15 000–30 000</span> på 2–3 år
+            <span className="text-white font-semibold">{t.stat2Value}</span>{t.stat2Label}
             <span className="text-white/20">•</span>
-            <span className="text-emerald-400">100% skräddarsydda kontaktpunkter</span>
+            <span className="text-emerald-400">{t.stat3}</span>
           </div>
         </div>
 
@@ -185,7 +295,7 @@ export const LinkedClientPlaygroundSection: React.FC = () => {
             {/* Bottom Footnote */}
             <div className="pt-6 border-t border-white/[0.08]">
               <p className="text-xs sm:text-sm text-neutral-500 font-light leading-relaxed">
-                Varje scenario konfigureras med era unika målgrupper, tonalitet och konverteringsmål — AI-agenten sköter dialogen, era säljare tar över när mötet är bokat.
+                {t.footnote}
               </p>
             </div>
           </div>
@@ -204,17 +314,17 @@ export const LinkedClientPlaygroundSection: React.FC = () => {
                   <div className="relative w-8 h-8 rounded-full overflow-hidden shadow-[0_0_15px_rgba(255,255,255,0.25)] flex-shrink-0">
                     <Image
                       src="/images/agent-orb-clean.png"
-                      alt="Sales Agent Orb"
+                      alt={t.orbAlt}
                       fill
                       className="object-contain"
                     />
                   </div>
                   <div>
                     <h3 className="text-sm font-medium text-white tracking-tight leading-none mb-1">
-                      Sales Agent
+                      {t.agentName}
                     </h3>
                     <p className="text-[11px] font-light text-neutral-400 leading-none">
-                      Playground · {activeScenario.tabTitle}
+                      {t.playground}{activeScenario.tabTitle}
                     </p>
                   </div>
                 </div>
@@ -224,7 +334,7 @@ export const LinkedClientPlaygroundSection: React.FC = () => {
                   type="button"
                   onClick={startSequentialAnimation}
                   className="text-neutral-400 hover:text-white transition-colors p-1.5 rounded-lg hover:bg-white/[0.06]"
-                  title="Spela upp sekvens igen"
+                  title={t.replay}
                 >
                   <RotateCcw className="w-4 h-4" />
                 </button>
@@ -244,7 +354,7 @@ export const LinkedClientPlaygroundSection: React.FC = () => {
                   <div className="relative w-6 h-6 rounded-full overflow-hidden flex-shrink-0 mt-0.5 opacity-85">
                     <Image
                       src="/images/agent-orb-clean.png"
-                      alt="Sales Agent Orb"
+                      alt={t.orbAlt}
                       fill
                       className="object-contain"
                     />
@@ -282,13 +392,13 @@ export const LinkedClientPlaygroundSection: React.FC = () => {
                     <div className="relative w-6 h-6 rounded-full overflow-hidden flex-shrink-0 mt-0.5 opacity-85">
                       <Image
                         src="/images/agent-orb-clean.png"
-                        alt="Sales Agent Orb"
+                        alt={t.orbAlt}
                         fill
                         className="object-contain"
                       />
                     </div>
                     <div className="text-xs sm:text-[13px] text-neutral-400 font-light flex items-center gap-2 py-2 px-3 rounded-2xl bg-white/[0.03] border border-white/[0.05]">
-                      <span>Thinking...</span>
+                      <span>{t.thinking}</span>
                       <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-pulse" />
                     </div>
                   </div>
@@ -304,7 +414,7 @@ export const LinkedClientPlaygroundSection: React.FC = () => {
                     <div className="relative w-6 h-6 rounded-full overflow-hidden flex-shrink-0 mt-0.5 opacity-85">
                       <Image
                         src="/images/agent-orb-clean.png"
-                        alt="Sales Agent Orb"
+                        alt={t.orbAlt}
                         fill
                         className="object-contain"
                       />
@@ -322,13 +432,13 @@ export const LinkedClientPlaygroundSection: React.FC = () => {
               <div className="relative z-10 flex-shrink-0 pt-3">
                 <div className="w-full rounded-full bg-[#12151D] border border-white/[0.09] px-4 py-2.5 flex items-center justify-between text-neutral-400 shadow-inner">
                   <span className="text-xs sm:text-[13px] font-light text-neutral-500">
-                    Ask the agent
+                    {t.askAgent}
                   </span>
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
                       className="text-neutral-400 hover:text-white transition-colors p-1"
-                      aria-label="Röststyrning"
+                      aria-label={t.voice}
                     >
                       <Mic className="w-3.5 h-3.5" />
                     </button>
@@ -336,7 +446,7 @@ export const LinkedClientPlaygroundSection: React.FC = () => {
                       type="button"
                       onClick={startSequentialAnimation}
                       className="w-6 h-6 rounded-full bg-[#1F2430] border border-white/10 text-white flex items-center justify-center hover:bg-[#282F3E] transition-colors"
-                      aria-label="Skicka meddelande"
+                      aria-label={t.send}
                     >
                       <ArrowUp className="w-3.5 h-3.5 text-neutral-300" />
                     </button>

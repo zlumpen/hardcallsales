@@ -4,6 +4,8 @@ import { Header } from "@/components/layout/Header";
 import { CommunityFooter } from "@/components/sections/CommunityFooter";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { CalProvider } from "@/components/cal/CalProvider";
+import { HtmlLang } from "@/i18n/HtmlLang";
+import { SITE_URL } from "@/i18n/config";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,6 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Hard Call Sales — Vi bygger B2B-pipelines för IT & SaaS",
     template: "%s | Hard Call Sales",
@@ -36,6 +39,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
       <body className="min-h-screen flex flex-col bg-[#0A0A0A] text-white selection:bg-[#7851A9] selection:text-white">
+        <HtmlLang />
         <CalProvider />
         <SmoothScroll>
           <Header />

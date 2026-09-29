@@ -1,9 +1,31 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Users, MapPin, ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
-import { LEADERSHIP_TEAM } from "@/data/team";
+import { getLeadershipTeam } from "@/data/team";
+import { useLocale, useLocalizedHref } from "@/i18n/useLocale";
+
+const COPY = {
+  sv: {
+    badge: "LEADERSHIP & EXPERTER",
+    title: "Människorna som leder Hard Call Sales",
+    subtitle: "Erfarna entreprenörer, säljchefer och AI-specialister som brinner för att bygga förutsägbara B2B-intäktsströmmar.",
+    careersLink: "Vill du jobba med oss? Se lediga tjänster",
+    onLinkedin: "på LinkedIn",
+    focusAreas: "Fokusområden:",
+  },
+  en: {
+    badge: "LEADERSHIP & EXPERTS",
+    title: "The people leading Hard Call Sales",
+    subtitle: "Experienced entrepreneurs, sales leaders and AI specialists who are passionate about building predictable B2B revenue streams.",
+    careersLink: "Want to work with us? See open positions",
+    onLinkedin: "on LinkedIn",
+    focusAreas: "Focus areas:",
+  },
+} as const;
 
 const LinkedinIcon = ({ size = 14, className = "" }: { size?: number; className?: string }) => (
   <svg
@@ -18,6 +40,10 @@ const LinkedinIcon = ({ size = 14, className = "" }: { size?: number; className?
 );
 
 export const LeadershipGrid: React.FC = () => {
+  const locale = useLocale();
+  const t = COPY[locale];
+  const lh = useLocalizedHref();
+  const LEADERSHIP_TEAM = getLeadershipTeam(locale);
   return (
     <section className="w-full bg-[#0A0A0A] text-white py-20 sm:py-28 border-b border-[#2B2B2B] relative overflow-hidden">
       {/* Background Accent */}
@@ -30,21 +56,21 @@ export const LeadershipGrid: React.FC = () => {
           <div className="max-w-2xl">
             <Badge variant="purple-soft" size="md" className="mb-3.5">
               <Users size={14} className="text-[#7851A9] mr-1.5" />
-              <span>LEADERSHIP & EXPERTER</span>
+              <span>{t.badge}</span>
             </Badge>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white leading-tight">
-              Människorna som leder Hard Call Sales
+              {t.title}
             </h2>
             <p className="mt-3 text-sm sm:text-base text-[#A8A8A8]">
-              Erfarna entreprenörer, säljchefer och AI-specialister som brinner för att bygga förutsägbara B2B-intäktsströmmar.
+              {t.subtitle}
             </p>
           </div>
 
           <Link
-            href="/jobba-hos-oss"
+            href={lh("/jobba-hos-oss")}
             className="inline-flex items-center gap-2 text-sm font-semibold text-[#B89FE0] hover:text-white transition-colors group self-start md:self-auto"
           >
-            <span>Vill du jobba med oss? Se lediga tjänster</span>
+            <span>{t.careersLink}</span>
             <ArrowUpRight size={16} className="text-[#7851A9] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
         </div>
@@ -70,7 +96,7 @@ export const LeadershipGrid: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:bg-[#7851A9] hover:border-[#7851A9] flex items-center justify-center text-[#A8A8A8] hover:text-white transition-all"
-                      aria-label={`${member.name} på LinkedIn`}
+                      aria-label={`${member.name} ${t.onLinkedin}`}
                     >
                       <LinkedinIcon size={14} />
                     </a>
@@ -102,7 +128,7 @@ export const LeadershipGrid: React.FC = () => {
               {member.expertise && (
                 <div className="pt-4 border-t border-white/10">
                   <span className="text-[10px] uppercase font-semibold text-[#6E6E6E] block mb-2">
-                    Fokusområden:
+                    {t.focusAreas}
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {member.expertise.map((exp, eIdx) => (

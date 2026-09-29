@@ -4,7 +4,9 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X, ArrowRight, Phone, Mail } from "lucide-react";
-import { MAIN_NAV_ITEMS, PRIMARY_CTA, COMPANY_INFO } from "@/data/navigation";
+import { getMainNav, getPrimaryCta, COMPANY_INFO } from "@/data/navigation";
+import { useLocale, useLocalizedHref } from "@/i18n/useLocale";
+import { LanguageSwitch } from "@/components/layout/LanguageSwitch";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +17,11 @@ interface MobileMenuProps {
 
 export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   const pathname = usePathname();
+  const locale = useLocale();
+  const lh = useLocalizedHref();
+  const MAIN_NAV_ITEMS = getMainNav(locale);
+  const PRIMARY_CTA = getPrimaryCta(locale);
+  const en = locale === "en";
 
   // Prevent background scrolling when mobile menu is open
   useEffect(() => {
@@ -34,7 +41,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 lg:hidden flex flex-col justify-between bg-[#0A0A0A]/95 backdrop-blur-2xl border-b border-white/10 animate-in fade-in duration-200">
       {/* Top Bar with Brand and Close Button */}
       <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
-        <Link href="/" onClick={onClose} className="flex items-center gap-2.5">
+        <Link href={lh("/")} onClick={onClose} className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-[#7851A9] flex items-center justify-center font-bold text-white text-base shadow-sm">
             H
           </div>
@@ -44,7 +51,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
         </Link>
         <button
           onClick={onClose}
-          aria-label="Stäng meny"
+          aria-label={en ? "Close menu" : "Stäng meny"}
           className="w-10 h-10 rounded-full flex items-center justify-center text-[#A8A8A8] hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
         >
           <X size={20} />
@@ -53,28 +60,31 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
 
       {/* Navigation Links */}
       <div className="flex-1 overflow-y-auto px-6 py-8 flex flex-col gap-2">
-        <p className="text-xs font-semibold uppercase tracking-wider text-[#6E6E6E] mb-2">
-          Navigering
-        </p>
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[#6E6E6E]">
+            {en ? "Navigation" : "Navigering"}
+          </p>
+          <LanguageSwitch />
+        </div>
         <Link
-          href="/"
+          href={lh("/")}
           onClick={onClose}
           className={cn(
             "flex items-center justify-between py-3.5 px-4 rounded-xl text-lg font-medium transition-colors",
-            pathname === "/"
+            pathname === lh("/")
               ? "bg-[#7851A9]/15 text-white border border-[#7851A9]/30"
               : "text-[#EDEDED] hover:bg-white/5 hover:text-white"
           )}
         >
-          <span>Startsida</span>
+          <span>{en ? "Home" : "Startsida"}</span>
           <ArrowRight size={16} className="text-[#6E6E6E]" />
         </Link>
         {MAIN_NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive = pathname === lh(item.href);
           return (
             <Link
               key={item.href}
-              href={item.href}
+              href={lh(item.href)}
               onClick={onClose}
               className={cn(
                 "flex items-center justify-between py-3.5 px-4 rounded-xl text-lg font-medium transition-colors",
@@ -103,7 +113,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
       {/* Mobile CTA and Quick Contacts */}
       <div className="p-6 border-t border-white/10 bg-[#111111]/80 flex flex-col gap-4">
         <Button
-          href={PRIMARY_CTA.href}
+          href={lh(PRIMARY_CTA.href)}
           size="lg"
           variant="primary"
           hasArrow

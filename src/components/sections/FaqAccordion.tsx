@@ -5,7 +5,54 @@ import Link from "next/link";
 import { Plus, Minus, HelpCircle, ArrowRight, MessageSquare } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
-import { FAQS } from "@/data/faq";
+import { getFaqs } from "@/data/faq";
+import { useLocale, useLocalizedHref } from "@/i18n/useLocale";
+
+// Kategori-id:n är svenska i båda språken (matchar faq.ts och defaultCategory-propen).
+const COPY = {
+  sv: {
+    defaultTitle: "Vanliga frågor om våra säljtjänster & leverans",
+    defaultSubtitle: "Här besvarar vi de vanligaste funderingarna kring hur en pilot fungerar, hur möten kvalificeras och vad som händer vid no-shows.",
+    badge: "FAQ & Svar",
+    categoryPrefix: "Kategori:",
+    notFound: "Hittade du inte svaret du letade efter? Vi svarar direkt i vårt uppstartssamtal.",
+    askLink: "Ställ en fråga i bokningen",
+    categories: {
+      all: "Alla frågor",
+      Pilotmodellen: "Pilotmodellen",
+      Tjänster: "Tjänster",
+      "Teknik & Integration": "Teknik & Integration",
+      Allmänt: "Allmänt & Pris",
+    },
+    categoryNames: {
+      Pilotmodellen: "Pilotmodellen",
+      Tjänster: "Tjänster",
+      "Teknik & Integration": "Teknik & Integration",
+      Allmänt: "Allmänt",
+    },
+  },
+  en: {
+    defaultTitle: "Frequently asked questions about our sales services & delivery",
+    defaultSubtitle: "Here we answer the most common questions about how a pilot works, how meetings are qualified and what happens with no-shows.",
+    badge: "FAQ & Answers",
+    categoryPrefix: "Category:",
+    notFound: "Didn't find the answer you were looking for? We'll answer it right away in our kickoff call.",
+    askLink: "Ask a question when you book",
+    categories: {
+      all: "All questions",
+      Pilotmodellen: "Pilot model",
+      Tjänster: "Services",
+      "Teknik & Integration": "Tech & Integration",
+      Allmänt: "General & Pricing",
+    },
+    categoryNames: {
+      Pilotmodellen: "Pilot model",
+      Tjänster: "Services",
+      "Teknik & Integration": "Tech & Integration",
+      Allmänt: "General",
+    },
+  },
+} as const;
 
 interface FaqAccordionProps {
   title?: string;
@@ -16,21 +63,27 @@ interface FaqAccordionProps {
 }
 
 export const FaqAccordion: React.FC<FaqAccordionProps> = ({
-  title = "Vanliga frågor om våra säljtjänster & leverans",
-  subtitle = "Här besvarar vi de vanligaste funderingarna kring hur en pilot fungerar, hur möten kvalificeras och vad som händer vid no-shows.",
+  title,
+  subtitle,
   defaultCategory = "all",
   className = "",
   theme = "dark",
 }) => {
+  const locale = useLocale();
+  const t = COPY[locale];
+  const lh = useLocalizedHref();
+  const FAQS = getFaqs(locale);
+  const heading = title ?? t.defaultTitle;
+  const intro = subtitle ?? t.defaultSubtitle;
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [activeCategory, setActiveCategory] = useState<string>(defaultCategory);
 
   const categories = [
-    { id: "all", label: "Alla frågor" },
-    { id: "Pilotmodellen", label: "Pilotmodellen" },
-    { id: "Tjänster", label: "Tjänster" },
-    { id: "Teknik & Integration", label: "Teknik & Integration" },
-    { id: "Allmänt", label: "Allmänt & Pris" },
+    { id: "all", label: t.categories.all },
+    { id: "Pilotmodellen", label: t.categories.Pilotmodellen },
+    { id: "Tjänster", label: t.categories.Tjänster },
+    { id: "Teknik & Integration", label: t.categories["Teknik & Integration"] },
+    { id: "Allmänt", label: t.categories.Allmänt },
   ];
 
   const filteredFaqs =
@@ -60,17 +113,17 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
             className="mb-4"
           >
             <HelpCircle size={13} className="text-[#7851A9] mr-1" />
-            <span>FAQ & Svar</span>
+            <span>{t.badge}</span>
           </Badge>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-            {title}
+            {heading}
           </h2>
           <p
             className={`text-base sm:text-lg leading-relaxed ${
               isDark ? "text-[#A8A8A8]" : "text-[#6E6E6E]"
             }`}
           >
-            {subtitle}
+            {intro}
           </p>
         </div>
 
@@ -154,7 +207,7 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
                     <p>{faq.answer}</p>
                     {faq.category && (
                       <span className="inline-block mt-3 text-[11px] font-mono text-[#7851A9] uppercase tracking-wider">
-                        Kategori: {faq.category}
+                        {t.categoryPrefix} {t.categoryNames[faq.category]}
                       </span>
                     )}
                   </div>
@@ -175,14 +228,14 @@ export const FaqAccordion: React.FC<FaqAccordionProps> = ({
           <div className="flex items-center gap-3">
             <MessageSquare size={20} className="text-[#7851A9] shrink-0" />
             <div className="text-xs sm:text-sm">
-              Hittade du inte svaret du letade efter? Vi svarar direkt i vårt uppstartssamtal.
+              {t.notFound}
             </div>
           </div>
           <Link
-            href="/boka-mote"
+            href={lh("/boka-mote")}
             className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#7851A9] hover:underline shrink-0"
           >
-            <span>Ställ en fråga i bokningen</span>
+            <span>{t.askLink}</span>
             <ArrowRight size={14} />
           </Link>
         </div>

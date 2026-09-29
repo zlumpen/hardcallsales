@@ -1,10 +1,31 @@
+"use client";
+
 import React from "react";
 import { History, Zap } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
-import { COMPANY_STORY } from "@/data/team";
+import { getCompanyStory } from "@/data/team";
+import { useLocale } from "@/i18n/useLocale";
+
+const COPY = {
+  sv: {
+    badge: "Vår Historia & Mission",
+    philosophyTitle: "Vår kärnfilosofi: Människa + Maskin",
+    philosophyBody: "Vi tror inte på att ersätta säljare med robotar, och inte heller på att låta säljare slösa 80 % av sin tid på manuell listbyggnad. Framtiden tillhör bolag som kombinerar AI-precision i toppen av tratten med genuin mänsklig dialog i avslutet.",
+    timelineTitle: "Vår utveckling",
+  },
+  en: {
+    badge: "Our Story & Mission",
+    philosophyTitle: "Our core philosophy: Human + Machine",
+    philosophyBody: "We don't believe in replacing sales reps with robots, nor in letting reps waste 80% of their time on manual list building. The future belongs to companies that combine AI precision at the top of the funnel with genuine human dialogue at the close.",
+    timelineTitle: "Our journey",
+  },
+} as const;
 
 export const CompanyStory: React.FC = () => {
+  const locale = useLocale();
+  const t = COPY[locale];
+  const COMPANY_STORY = getCompanyStory(locale);
   return (
     <section className="w-full bg-[#0A0A0A] text-white py-20 sm:py-28 border-b border-[#2B2B2B] relative overflow-hidden">
       {/* Ambient background glow */}
@@ -16,7 +37,7 @@ export const CompanyStory: React.FC = () => {
         <div className="max-w-3xl mb-14 sm:mb-20">
           <Badge variant="purple-soft" size="md" className="mb-4">
             <History size={14} className="text-[#7851A9] mr-1.5" />
-            <span>Vår Historia & Mission</span>
+            <span>{t.badge}</span>
           </Badge>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white leading-tight mb-6">
             {COMPANY_STORY.headline}
@@ -41,10 +62,10 @@ export const CompanyStory: React.FC = () => {
             <div className="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-white/[0.04] to-[#7851A9]/10 border border-[#7851A9]/30 mt-8">
               <div className="flex items-center gap-2 text-white font-bold text-base mb-2">
                 <Zap size={18} className="text-[#7851A9]" />
-                <span>Vår kärnfilosofi: Människa + Maskin</span>
+                <span>{t.philosophyTitle}</span>
               </div>
               <p className="text-xs sm:text-sm text-[#EDEDED] leading-relaxed">
-                Vi tror inte på att ersätta säljare med robotar, och inte heller på att låta säljare slösa 80 % av sin tid på manuell listbyggnad. Framtiden tillhör bolag som kombinerar AI-precision i toppen av tratten med genuin mänsklig dialog i avslutet.
+                {t.philosophyBody}
               </p>
             </div>
           </div>
@@ -52,7 +73,7 @@ export const CompanyStory: React.FC = () => {
           {/* Milestone Timeline (Right 5 cols) */}
           <div className="lg:col-span-5 rounded-2xl bg-[#111111]/90 border border-[#2B2B2B] p-6 sm:p-8 space-y-6">
             <h3 className="text-lg font-bold text-white tracking-tight pb-4 border-b border-white/10 flex items-center justify-between">
-              <span>Vår utveckling</span>
+              <span>{t.timelineTitle}</span>
               <span className="text-xs font-mono text-[#7851A9]">2020 — 2026</span>
             </h3>
 

@@ -1,10 +1,29 @@
+"use client";
+
 import React from "react";
 import { Target, ShieldCheck, Cpu, Users, CheckCircle2, Award } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
-import { CORE_VALUES } from "@/data/team";
+import { getCoreValues } from "@/data/team";
+import { useLocale } from "@/i18n/useLocale";
+
+const COPY = {
+  sv: {
+    badge: "KÄRNVÄRDERINGAR",
+    title: "Fyra principer som styr varje samtal och varje kampanj",
+    subtitle: "Vi kompromissar aldrig med kvaliteten. Vårt arbete vilar på dessa orubbliga grundpelare.",
+  },
+  en: {
+    badge: "CORE VALUES",
+    title: "Four principles that guide every call and every campaign",
+    subtitle: "We never compromise on quality. Our work rests on these unshakable pillars.",
+  },
+} as const;
 
 export const CoreValues: React.FC = () => {
+  const locale = useLocale();
+  const t = COPY[locale];
+  const CORE_VALUES = getCoreValues(locale);
   const iconsMap: Record<string, React.ReactNode> = {
     Target: <Target size={24} className="text-[#7851A9]" />,
     ShieldCheck: <ShieldCheck size={24} className="text-[#7851A9]" />,
@@ -23,13 +42,13 @@ export const CoreValues: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
           <Badge variant="purple-soft" size="md" className="mb-4">
             <Award size={14} className="text-[#7851A9] mr-1.5" />
-            <span>KÄRNVÄRDERINGAR</span>
+            <span>{t.badge}</span>
           </Badge>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white leading-tight mb-4">
-            Fyra principer som styr varje samtal och varje kampanj
+            {t.title}
           </h2>
           <p className="text-sm sm:text-base text-[#A8A8A8] max-w-2xl mx-auto">
-            Vi kompromissar aldrig med kvaliteten. Vårt arbete vilar på dessa orubbliga grundpelare.
+            {t.subtitle}
           </p>
         </div>
 

@@ -8,9 +8,47 @@ import {
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { PILOT_STEPS } from "@/data/pilotSteps";
+import { getPilotSteps } from "@/data/pilotSteps";
+import { useLocale, useLocalizedHref } from "@/i18n/useLocale";
+
+const COPY = {
+  sv: {
+    label: "Pilotmodellen",
+    chipSteps: "6 steg",
+    chipTest: "3 månaders test",
+    chipMeetings: "10–100 möten/mån",
+    title: "SÅ HÄR FUNGERAR EN PILOT MED OSS",
+    subtitle: "Tre månaders strukturerat test, sex tydliga steg. Ni ser det faktiska resultatet och den genererade affärsnyttan innan ni binder er för ett längre samarbete.",
+    ctaPrimary: "Starta en pilot",
+    ctaScroll: "Gå igenom alla 6 steg",
+    stepByStep: "Steg för steg",
+    timelineTitle: "Från målgruppsanalys till verifierat affärsresultat",
+    timelineText: "En beprövad metodik över 3 månader utvecklad för att maximera antal bokade möten och säkra hög show rate.",
+    showAll: "Visa alla",
+    phase: "Fas",
+  },
+  en: {
+    label: "The pilot model",
+    chipSteps: "6 steps",
+    chipTest: "3-month test",
+    chipMeetings: "10–100 meetings/mo",
+    title: "HOW A PILOT WITH US WORKS",
+    subtitle: "A structured three-month test in six clear steps. You see the actual results and the business value generated before you commit to a longer partnership.",
+    ctaPrimary: "Start a pilot",
+    ctaScroll: "Walk through all 6 steps",
+    stepByStep: "Step by step",
+    timelineTitle: "From audience analysis to verified business results",
+    timelineText: "A proven 3-month methodology designed to maximize the number of booked meetings and secure a high show rate.",
+    showAll: "Show all",
+    phase: "Phase",
+  },
+} as const;
 
 export const PilotTimeline: React.FC = () => {
+  const locale = useLocale();
+  const t = COPY[locale];
+  const lh = useLocalizedHref();
+  const PILOT_STEPS = getPilotSteps(locale);
   const [activeStep, setActiveStep] = useState<number | null>(null);
 
   const scrollToTimeline = () => {
@@ -34,49 +72,49 @@ export const PilotTimeline: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Route size={18} className="text-[#7851A9]" />
                 <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-white">
-                  Pilotmodellen
+                  {t.label}
                 </span>
               </div>
 
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant="purple" size="sm" className="font-bold">
-                  6 steg
+                  {t.chipSteps}
                 </Badge>
                 <Badge variant="glass" size="sm">
-                  3 månaders test
+                  {t.chipTest}
                 </Badge>
                 <Badge variant="glass" size="sm">
-                  10–100 möten/mån
+                  {t.chipMeetings}
                 </Badge>
               </div>
             </div>
 
             {/* Massive Display Title */}
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.08] mb-6">
-              SÅ HÄR FUNGERAR EN PILOT MED OSS
+              {t.title}
             </h2>
 
             {/* Subhead */}
             <p className="text-base sm:text-xl text-[#A8A8A8] font-normal leading-relaxed max-w-2xl mb-10">
-              Tre månaders strukturerat test, sex tydliga steg. Ni ser det faktiska resultatet och den genererade affärsnyttan innan ni binder er för ett längre samarbete.
+              {t.subtitle}
             </p>
 
             {/* CTA & Scroll indicator */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <Button
-                href="/boka-mote"
+                href={lh("/boka-mote")}
                 variant="primary"
                 size="lg"
                 hasArrow
               >
-                Starta en pilot
+                {t.ctaPrimary}
               </Button>
 
               <button
                 onClick={scrollToTimeline}
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full text-sm font-medium text-[#A8A8A8] hover:text-white border border-white/10 hover:border-white/20 transition-all cursor-pointer"
               >
-                <span>Gå igenom alla 6 steg</span>
+                <span>{t.ctaScroll}</span>
                 <ChevronDown size={16} />
               </button>
             </div>
@@ -90,13 +128,13 @@ export const PilotTimeline: React.FC = () => {
         
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
           <span className="text-xs font-semibold uppercase tracking-wider text-[#7851A9] bg-[#7851A9]/10 px-3 py-1 rounded-full border border-[#7851A9]/20 mb-3 inline-block">
-            Steg för steg
+            {t.stepByStep}
           </span>
           <h3 className="text-2xl sm:text-4xl font-bold tracking-tight text-[#0F0F0F] mb-4">
-            Från målgruppsanalys till verifierat affärsresultat
+            {t.timelineTitle}
           </h3>
           <p className="text-sm sm:text-base text-[#6E6E6E]">
-            En beprövad metodik över 3 månader utvecklad för att maximera antal bokade möten och säkra hög show rate.
+            {t.timelineText}
           </p>
         </div>
 
@@ -120,7 +158,7 @@ export const PilotTimeline: React.FC = () => {
               onClick={() => setActiveStep(null)}
               className="text-xs text-[#7851A9] font-medium hover:underline px-2"
             >
-              Visa alla
+              {t.showAll}
             </button>
           )}
         </div>
@@ -168,7 +206,7 @@ export const PilotTimeline: React.FC = () => {
                           {step.step}
                         </span>
                         <span className="text-xs font-semibold uppercase tracking-wider text-[#6E6E6E] bg-[#F2F2F2] px-2.5 py-1 rounded-md">
-                          Fas {index + 1}
+                          {t.phase} {index + 1}
                         </span>
                       </div>
 

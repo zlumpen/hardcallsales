@@ -4,8 +4,45 @@ import React from "react";
 import { Container } from "@/components/ui/Container";
 import { ArrowRight, Check, Calendar } from "lucide-react";
 import { openCalModal, DEFAULT_CAL_LINK } from "@/components/cal/CalProvider";
+import { useLocale } from "@/i18n/useLocale";
+
+const COPY = {
+  sv: {
+    h3Highlight: "Boka",
+    h3a: " ett samtal med",
+    h3b: "vår mötesexpert",
+    body: "Vår mötesexpert går igenom din pipeline med dig. Oavsett om ni säljer till IT-chefer, SaaS-bolag eller upphandlare bygger vi ett upplägg som passar er — och visar exakt hur en pilot skulle se ut hos er.",
+    quote: "”Hard Call Sales fyllde kalendern på sex veckor. Vi slapp bygga en egen SDR-funktion.”",
+    role: "Säljchef, AVEVA",
+    chip: "Direktbokning · 15 min",
+    h4: "Välj en tid direkt i kalendern",
+    intro: "Ett förutsättningslöst 15-minuters strategisamtal direkt med Malin Berlin. Vi går igenom er ideala kundprofil, er nuvarande pipeline och visar hur en 3-månaders pilot fylls med kvalificerade möten.",
+    point1: "15 min digitalt videomöte via Google Meet / Teams",
+    point2: "Genomgång av era målgrupper och beslutsfattare",
+    point3: "Konkret förslag på upplägg och prognos för en 3-månaders pilot",
+    cta: "Boka möte här",
+    note: "Kostnadsfritt · Inga förberedelser krävs",
+  },
+  en: {
+    h3Highlight: "Book",
+    h3a: " a call with",
+    h3b: "our meeting expert",
+    body: "Our meeting expert walks through your pipeline with you. Whether you sell to IT leaders, SaaS companies or procurement teams, we build a setup that fits you — and show you exactly what a pilot would look like for your business.",
+    quote: "“Hard Call Sales filled our calendar in six weeks. We didn't have to build our own SDR function.”",
+    role: "Head of Sales, AVEVA",
+    chip: "Instant booking · 15 min",
+    h4: "Pick a time straight in the calendar",
+    intro: "A no-obligation 15-minute strategy call directly with Malin Berlin. We'll go through your ideal customer profile and your current pipeline, and show you how a 3-month pilot fills up with qualified meetings.",
+    point1: "15-minute video call via Google Meet / Teams",
+    point2: "A review of your target audiences and decision-makers",
+    point3: "A concrete proposal and forecast for a 3-month pilot",
+    cta: "Book your meeting here",
+    note: "Free of charge · No preparation needed",
+  },
+} as const;
 
 export const ContactSplitSection: React.FC = () => {
+  const t = COPY[useLocale()];
   return (
     <section id="kontakt" className="w-full bg-[#0D0D0D] py-24 sm:py-32 border-b border-[#1F1F1F] relative overflow-hidden">
       
@@ -40,12 +77,12 @@ export const ContactSplitSection: React.FC = () => {
 
                 {/* Main Heading */}
                 <h3 className="text-3xl sm:text-4xl font-normal tracking-tight leading-[1.16] mb-5 sm:mb-6 text-white">
-                  <span className="text-[#7851A9] font-medium">Boka</span> ett samtal med<br />vår mötesexpert
+                  <span className="text-[#7851A9] font-medium">{t.h3Highlight}</span>{t.h3a}<br />{t.h3b}
                 </h3>
 
                 {/* Body Paragraph */}
                 <p className="text-sm sm:text-[15px] text-[#9E9E9E] font-normal leading-[1.65] mb-8 sm:mb-10">
-                  Vår mötesexpert går igenom din pipeline med dig. Oavsett om ni säljer till IT-chefer, SaaS-bolag eller upphandlare bygger vi ett upplägg som passar er — och visar exakt hur en pilot skulle se ut hos er.
+                  {t.body}
                 </p>
               </div>
 
@@ -58,14 +95,14 @@ export const ContactSplitSection: React.FC = () => {
                     <span>AVEVA</span>
                   </div>
                   <p className="text-xs sm:text-sm text-[#E0E0E0] font-normal leading-relaxed text-center">
-                    ”Hard Call Sales fyllde kalendern på sex veckor. Vi slapp bygga en egen SDR-funktion.”
+                    {t.quote}
                   </p>
                 </div>
 
                 {/* Centered Author Underneath */}
                 <div className="text-center mt-3.5 sm:mt-4">
                   <span className="font-semibold text-white text-xs sm:text-sm block">Mattias Holm</span>
-                  <span className="text-[#777777] text-[11px] sm:text-xs block mt-0.5">Säljchef, AVEVA</span>
+                  <span className="text-[#777777] text-[11px] sm:text-xs block mt-0.5">{t.role}</span>
                 </div>
 
                 {/* Testimonial Pagination Indicator: Active white line + gray dot */}
@@ -82,15 +119,15 @@ export const ContactSplitSection: React.FC = () => {
               <div>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-700 text-xs font-mono uppercase tracking-wider mb-6">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#7851A9]" />
-                  <span>Direktbokning · 15 min</span>
+                  <span>{t.chip}</span>
                 </div>
 
                 <h4 className="text-3xl sm:text-4xl font-normal tracking-tight text-[#111111] leading-[1.15] mb-5">
-                  Välj en tid direkt i kalendern
+                  {t.h4}
                 </h4>
 
                 <p className="text-sm sm:text-base text-[#555555] font-light leading-relaxed mb-8 max-w-xl">
-                  Ett förutsättningslöst 15-minuters strategisamtal direkt med Malin Berlin. Vi går igenom er ideala kundprofil, er nuvarande pipeline och visar hur en 3-månaders pilot fylls med kvalificerade möten.
+                  {t.intro}
                 </p>
 
                 {/* Meeting Highlights */}
@@ -99,19 +136,19 @@ export const ContactSplitSection: React.FC = () => {
                     <div className="w-5 h-5 rounded-full bg-[#7851A9]/10 text-[#7851A9] flex items-center justify-center shrink-0">
                       <Check className="w-3.5 h-3.5" />
                     </div>
-                    <span>15 min digitalt videomöte via Google Meet / Teams</span>
+                    <span>{t.point1}</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm sm:text-[15px] text-neutral-800">
                     <div className="w-5 h-5 rounded-full bg-[#7851A9]/10 text-[#7851A9] flex items-center justify-center shrink-0">
                       <Check className="w-3.5 h-3.5" />
                     </div>
-                    <span>Genomgång av era målgrupper och beslutsfattare</span>
+                    <span>{t.point2}</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm sm:text-[15px] text-neutral-800">
                     <div className="w-5 h-5 rounded-full bg-[#7851A9]/10 text-[#7851A9] flex items-center justify-center shrink-0">
                       <Check className="w-3.5 h-3.5" />
                     </div>
-                    <span>Konkret förslag på upplägg och prognos för en 3-månaders pilot</span>
+                    <span>{t.point3}</span>
                   </div>
                 </div>
               </div>
@@ -126,11 +163,11 @@ export const ContactSplitSection: React.FC = () => {
                   className="inline-flex items-center justify-center gap-3 px-8 py-4.5 rounded-full bg-[#0A0A0A] hover:bg-[#222222] text-white text-sm sm:text-base font-semibold tracking-wide transition-all shadow-md hover:shadow-xl cursor-pointer group"
                 >
                   <Calendar className="w-4 h-4 text-[#7851A9]" />
-                  <span>Boka möte här</span>
+                  <span>{t.cta}</span>
                   <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </button>
                 <span className="text-xs text-neutral-400 font-light">
-                  Kostnadsfritt · Inga förberedelser krävs
+                  {t.note}
                 </span>
               </div>
             </div>

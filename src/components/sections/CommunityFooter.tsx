@@ -3,8 +3,48 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
+import { useLocale, useLocalizedHref } from "@/i18n/useLocale";
+
+const COPY = {
+  sv: {
+    headline: "HÅLL KONTAKTEN!",
+    sub: "Få konkreta tips om mötesbokning, prospektering och pipeline – direkt i inkorgen.",
+    thanks: "Tack! Du är nu uppskriven.",
+    placeholder: "Din mejladress",
+    subscribe: "Prenumerera",
+    explore: "UTFORSKA",
+    home: "Hem",
+    cases: "Case",
+    about: "Om oss",
+    social: "SOCIALT",
+    contact: "KONTAKT",
+    homeAria: "Hard Call Sales Hem",
+    rights: "© 2026 Hard Call Sales AB. Alla rättigheter förbehållna.",
+    privacy: "Integritetspolicy",
+    terms: "Villkor",
+  },
+  en: {
+    headline: "STAY IN TOUCH!",
+    sub: "Get practical tips on appointment setting, prospecting and pipeline – straight to your inbox.",
+    thanks: "Thanks! You're now subscribed.",
+    placeholder: "Your email address",
+    subscribe: "Subscribe",
+    explore: "EXPLORE",
+    home: "Home",
+    cases: "Cases",
+    about: "About us",
+    social: "SOCIAL",
+    contact: "CONTACT",
+    homeAria: "Hard Call Sales Home",
+    rights: "© 2026 Hard Call Sales AB. All rights reserved.",
+    privacy: "Privacy policy",
+    terms: "Terms",
+  },
+} as const;
 
 export const CommunityFooter: React.FC = () => {
+  const t = COPY[useLocale()];
+  const lh = useLocalizedHref();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -40,10 +80,10 @@ export const CommunityFooter: React.FC = () => {
           {/* Left: Headline + Subtitle + Underline Input */}
           <div className="max-w-md w-full">
             <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-white tracking-tight uppercase leading-none mb-4 sm:mb-5">
-              HÅLL KONTAKTEN!
+              {t.headline}
             </h2>
             <p className="text-xs sm:text-[13px] text-[#8E8E8E] leading-relaxed max-w-sm mb-8 sm:mb-10">
-              Få konkreta tips om mötesbokning, prospektering och pipeline – direkt i inkorgen.
+              {t.sub}
             </p>
 
             {/* Underline Newsletter Input with arrow */}
@@ -51,21 +91,21 @@ export const CommunityFooter: React.FC = () => {
               {subscribed ? (
                 <div className="flex items-center gap-2 text-xs text-[#7851A9] py-2 font-medium">
                   <Check size={14} />
-                  <span>Tack! Du är nu uppskriven.</span>
+                  <span>{t.thanks}</span>
                 </div>
               ) : (
                 <div className="relative">
                   <input
                     type="email"
                     required
-                    placeholder="Din mejladress"
+                    placeholder={t.placeholder}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full bg-transparent border-b border-white/20 pb-2.5 pt-1 text-xs text-white placeholder:text-[#555555] focus:border-white focus:outline-none transition-colors pr-8"
                   />
                   <button
                     type="submit"
-                    aria-label="Prenumerera"
+                    aria-label={t.subscribe}
                     className="absolute right-0 bottom-2.5 text-[#777777] hover:text-white transition-colors cursor-pointer"
                   >
                     <ArrowUpRight size={15} />
@@ -81,18 +121,18 @@ export const CommunityFooter: React.FC = () => {
             {/* UTFORSKA */}
             <div>
               <span className="text-[11px] font-mono tracking-widest text-[#777777] uppercase block mb-5">
-                UTFORSKA
+                {t.explore}
               </span>
               <ul className="space-y-3 text-xs sm:text-[13px] text-[#A8A8A8]">
                 <li>
-                  <Link href="/" className="hover:text-white transition-colors">Hem</Link>
+                  <Link href={lh("/")} className="hover:text-white transition-colors">{t.home}</Link>
                 </li>
 
                 <li>
-                  <Link href="/case" className="hover:text-white transition-colors">Case</Link>
+                  <Link href={lh("/case")} className="hover:text-white transition-colors">{t.cases}</Link>
                 </li>
                 <li>
-                  <Link href="/om" className="hover:text-white transition-colors">Om oss</Link>
+                  <Link href={lh("/om")} className="hover:text-white transition-colors">{t.about}</Link>
                 </li>
               </ul>
             </div>
@@ -100,7 +140,7 @@ export const CommunityFooter: React.FC = () => {
             {/* SOCIALT */}
             <div>
               <span className="text-[11px] font-mono tracking-widest text-[#777777] uppercase block mb-5">
-                SOCIALT
+                {t.social}
               </span>
               <ul className="space-y-3 text-xs sm:text-[13px] text-[#A8A8A8]">
                 <li>
@@ -118,7 +158,7 @@ export const CommunityFooter: React.FC = () => {
             {/* KONTAKT */}
             <div className="col-span-2 sm:col-span-1">
               <span className="text-[11px] font-mono tracking-widest text-[#777777] uppercase block mb-5">
-                KONTAKT
+                {t.contact}
               </span>
               <div className="text-xs sm:text-[13px] text-[#A8A8A8]">
                 <a href="mailto:kontakt@hardcallsales.se" className="hover:text-white transition-colors break-all">
@@ -135,7 +175,7 @@ export const CommunityFooter: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 pt-14 sm:pt-16 border-t border-white/[0.06]">
           
           {/* Authentic Hard Call Sales Brand Logo on Left */}
-          <Link href="/" className="flex items-center gap-3.5 group" aria-label="Hard Call Sales Hem">
+          <Link href={lh("/")} className="flex items-center gap-3.5 group" aria-label={t.homeAria}>
             <img
               src="/images/logo/hcs-symbol.png"
               alt="Hard Call Sales"
@@ -150,10 +190,10 @@ export const CommunityFooter: React.FC = () => {
 
           {/* Copyright & Legal Links on Right */}
           <div className="text-left sm:text-right flex flex-col gap-1.5 text-xs text-[#6E6E6E]">
-            <div>© 2026 Hard Call Sales AB. Alla rättigheter förbehållna.</div>
+            <div>{t.rights}</div>
             <div className="flex items-center justify-start sm:justify-end gap-5 text-[#555555] text-[11px]">
-              <Link href="/om" className="hover:text-white transition-colors">Integritetspolicy</Link>
-              <Link href="/om" className="hover:text-white transition-colors">Villkor</Link>
+              <Link href={lh("/om")} className="hover:text-white transition-colors">{t.privacy}</Link>
+              <Link href={lh("/om")} className="hover:text-white transition-colors">{t.terms}</Link>
             </div>
           </div>
 

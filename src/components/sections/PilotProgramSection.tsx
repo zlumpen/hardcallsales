@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { openCalModal, DEFAULT_CAL_LINK } from "@/components/cal/CalProvider";
+import { useLocale } from "@/i18n/useLocale";
 
 // Skickar bilden via Vercels bildoptimering (webp/avif i rätt storlek per skärm)
 const opt = (src: string, w: number) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
@@ -47,7 +48,58 @@ const MILESTONES: Milestone[] = [
   },
 ];
 
+const MILESTONES_EN: Milestone[] = [
+  {
+    stepNum: "01",
+    timeline: "Week 1–2",
+    title: "Targeting & Domain Setup",
+    description:
+      "We map your ideal customers and manually verify every decision-maker. Isolated sending domains secure 100% deliverability, so your messages land in the inbox.",
+  },
+  {
+    stepNum: "02",
+    timeline: "Week 3–5",
+    title: "Multichannel Outreach",
+    description:
+      "Hypothesis-driven copy is A/B tested across LinkedIn and direct email. We warm up interest and pinpoint which accounts are showing clear buying signals.",
+  },
+  {
+    stepNum: "03",
+    timeline: "Week 6–10",
+    title: "Senior Appointment Setting",
+    description:
+      "Our experienced sales reps call every opened conversation and qualify against budget and need. Only relevant meetings get booked — straight into your sales reps' calendars.",
+  },
+  {
+    stepNum: "04",
+    timeline: "Week 11–12",
+    title: "Wrap-up & Data Review",
+    description:
+      "Full transparency on pipeline value, conversion rate and ROI. You own all the data and every lead — then you decide whether we continue.",
+  },
+];
+
+const COPY = {
+  sv: {
+    milestones: MILESTONES,
+    alt: "Hard Call Sales Snömassiv",
+    chip: "PILOTMODELL · 12 VECKOR UTAN BINDNINGSTID",
+    h2a: "Tolv veckor till full pipeline.",
+    h2b: "Inga bindningstider — ni avgör.",
+    cta: "BOKA ETT STRATEGISAMTAL",
+  },
+  en: {
+    milestones: MILESTONES_EN,
+    alt: "Hard Call Sales snow-capped massif",
+    chip: "PILOT MODEL · 12 WEEKS, NO LOCK-IN",
+    h2a: "Twelve weeks to a full pipeline.",
+    h2b: "No lock-in — you decide.",
+    cta: "BOOK A STRATEGY CALL",
+  },
+};
+
 export const PilotProgramSection: React.FC = () => {
+  const t = COPY[useLocale()];
   const sectionRef = useRef<HTMLDivElement>(null);
   const [entryProgress, setEntryProgress] = useState(1);
 
@@ -100,7 +152,7 @@ export const PilotProgramSection: React.FC = () => {
           sizes="100vw"
           loading="lazy"
           decoding="async"
-          alt="Hard Call Sales Snömassiv"
+          alt={t.alt}
           className="w-full max-w-[2550px] xl:max-w-[2900px] h-full object-contain object-bottom pointer-events-none scale-115 sm:scale-120"
         />
       </div>
@@ -112,20 +164,20 @@ export const PilotProgramSection: React.FC = () => {
         <div className="w-full max-w-5xl lg:max-w-6xl mt-4 sm:mt-6 lg:mt-8 mb-20 sm:mb-24 lg:mb-28">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/[0.04] border border-black/[0.08] text-[11px] font-mono tracking-widest text-neutral-600 uppercase mb-6 sm:mb-8">
             <Sparkles className="w-3 h-3 text-neutral-800" />
-            <span>PILOTMODELL · 12 VECKOR UTAN BINDNINGSTID</span>
+            <span>{t.chip}</span>
           </div>
 
           <h2 className="text-4xl sm:text-6xl lg:text-[78px] xl:text-[88px] 2xl:text-[94px] font-medium text-[#111111] leading-[1.02] tracking-tight">
-            <span className="block">Tolv veckor till full pipeline.</span>
+            <span className="block">{t.h2a}</span>
             <span className="block text-neutral-400 font-normal mt-2 sm:mt-3.5">
-              Inga bindningstider — ni avgör.
+              {t.h2b}
             </span>
           </h2>
         </div>
 
         {/* ── MITTEN: 4 STEG MELLAN LINJERNA SOM FÖLJER BERGETS TOPOGRAFI (Alla texter fria från berget) ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 relative z-20 mb-20 sm:mb-28">
-          {MILESTONES.map((m, idx) => {
+          {t.milestones.map((m, idx) => {
             // Följer bergets kam harmoniskt: 01 ren, 02 klättrar, 03 lyfts över högsta toppen, 04 balanserar
             const offsets = [
               "lg:translate-y-2 xl:translate-y-4",
@@ -177,7 +229,7 @@ export const PilotProgramSection: React.FC = () => {
             data-cal-config='{"layout":"month_view","theme":"dark"}'
             className="inline-flex items-center gap-3.5 px-10 py-4 sm:px-12 sm:py-5 rounded-full bg-[#111111] text-white text-xs sm:text-sm font-medium tracking-widest uppercase hover:bg-black transition-all duration-300 shadow-[0_16px_40px_rgba(0,0,0,0.12)] hover:shadow-[0_24px_55px_rgba(0,0,0,0.22)] hover:-translate-y-1 group cursor-pointer"
           >
-            <span>BOKA ETT STRATEGISAMTAL</span>
+            <span>{t.cta}</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
           </button>
         </div>
