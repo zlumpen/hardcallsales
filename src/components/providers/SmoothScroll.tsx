@@ -40,8 +40,9 @@ export const SmoothScroll: React.FC<{ children: React.ReactNode }> = ({ children
       const a = (e.target as HTMLElement | null)?.closest?.("a");
       if (!a || a.target === "_blank") return;
       const url = new URL(a.href, window.location.href);
-      if (url.origin !== window.location.origin || url.pathname !== "/" || url.hash) return;
-      if (window.location.pathname !== "/") return; // annan sida: Next navigerar som vanligt
+      const home = window.location.pathname === "/en" || window.location.pathname.startsWith("/en/") ? "/en" : "/";
+      if (url.origin !== window.location.origin || url.pathname !== home || url.hash) return;
+      if (window.location.pathname !== home) return; // annan sida: Next navigerar som vanligt
       e.preventDefault();
       lenis.scrollTo(0, { duration: 1 });
     };
