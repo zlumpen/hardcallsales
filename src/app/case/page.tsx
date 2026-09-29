@@ -5,11 +5,11 @@ import { CaseView } from "@/views/CaseView";
 export const metadata: Metadata = {
   title: "Case & Dokumenterade Resultat — AVEVA, Monster, IDNet m.fl.",
   description:
-    "Se hur vi hjälpt ledande IT- och SaaS-bolag att generera över 20 MSEK i nya affärer och boka hundratals kvalificerade möten med rätt beslutsfattare.",
+    "Se hur vi hjälpt ledande bolag att boka möten med rätt beslutsfattare – bland annat mötesbokning som bidrog till affärer värda över 20 MSEK för AVEVA.",
   openGraph: {
     title: "Case & Dokumenterade Resultat — Hard Call Sales",
     description:
-      "Bevisen, inte löftena. Dokumenterade resultat för AVEVA, Monster, IDNet, Wall to Wall Group, Allt om Juridik och NordTech Solutions.",
+      "Bevisen, inte löftena. Dokumenterade resultat för AVEVA, Monster, IDNet, Wall to Wall Group, Allt om Juridik, Milient och Roima Intelligence.",
   },
   alternates: languageAlternates("/case", "sv"),
 };
