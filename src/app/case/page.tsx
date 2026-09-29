@@ -3,7 +3,7 @@ import { languageAlternates } from "@/i18n/config";
 import { CaseView } from "@/views/CaseView";
 
 export const metadata: Metadata = {
-  title: "Case & Dokumenterade Resultat — AVEVA, Monster, IDNet m.fl. | Hard Call Sales",
+  title: "Case & Dokumenterade Resultat — AVEVA, Monster, IDNet m.fl.",
   description:
     "Se hur vi hjälpt ledande IT- och SaaS-bolag att generera över 20 MSEK i nya affärer och boka hundratals kvalificerade möten med rätt beslutsfattare.",
   openGraph: {
