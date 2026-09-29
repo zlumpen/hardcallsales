@@ -42,7 +42,7 @@ const COPY = {
     successBody: "Vi har tagit emot dina svar och sparar dina kontaktuppgifter. Pontus, Joakim och Malin går igenom alla inkomna kandidater löpande. Vi hör av oss inom 24–48 timmar.",
     confirmationSent: "Bekräftelse skickad till ",
     yourEmail: "din e-post",
-    formEyebrow: "ANSÖKNINGSSYTA · DINA ORD",
+    formEyebrow: "ANSÖKNINGSYTA · DINA ORD",
     formTitle: "Berätta vem du är.",
     formLead: "Vi förväntar oss inga standardiserade personliga brev. Skriv ärligt och direkt i slottarna nedan vad du har gjort och vad du vill åstadkomma.",
     slot1Title: "Kontakt & Identitet",
