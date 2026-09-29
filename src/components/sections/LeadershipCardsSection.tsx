@@ -126,7 +126,7 @@ const COPY = {
     h2b: "hundratals miljoner.",
     intro: "Från en villa på Malta 2017 till en av Nordens mest högpresterande mötesbokningsbyråer för IT och SaaS. Våra partners sitter inte på läktaren — de coachar, utvecklar metoden och leder varje uppdrag med samma kompromisslösa säljhantverk.",
     stat1Value: ">250k",
-    stat1: "Toppsytt/mån",
+    stat1: "Toppsålt/mån",
     stat2Value: "10 000h",
     stat2: "Snitt säljerfarenhet",
     stat3Value: "8+ år",
