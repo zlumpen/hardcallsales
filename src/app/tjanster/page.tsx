@@ -4,7 +4,7 @@ import { languageAlternates } from "@/i18n/config";
 import { ServicesView } from "@/views/ServicesView";
 
 export const metadata: Metadata = {
-  title: "Våra Säljtjänster — Mötesbokning B2B & Leadgenerering | Hard Call Sales",
+  title: "Våra Säljtjänster — Mötesbokning B2B & Leadgenerering",
   description:
     "Sex beprövade sätt vi fyller er pipeline med kvalificerade säljmöten. Från AI-prospektering och LinkedIn-sekvenser till seniora mötesbokare och CRM-integration.",
   openGraph: {
