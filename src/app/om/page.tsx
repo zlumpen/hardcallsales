@@ -4,7 +4,7 @@ import { languageAlternates } from "@/i18n/config";
 import { AboutView } from "@/views/AboutView";
 
 export const metadata: Metadata = {
-  title: "Om Oss & Teamet — Människorna bakom samtalen | Hard Call Sales",
+  title: "Om Oss & Teamet — Människorna bakom samtalen",
   description:
     "Lär känna Hard Call Sales. Vi kombinerar världsledande AI-teknologi och LinkedClient med seniora B2B-säljare från våra hubbar i Stockholm och Sliema, Malta.",
   openGraph: {
