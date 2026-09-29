@@ -12,12 +12,13 @@ const COPY = {
     eyebrowRight: "ENTERPRISE PIPELINES",
     h1a: "Stora resultat för ledande ",
     h1b: "B2B- & SaaS-bolag.",
-    intro: "Vi mäter framgång i stängda affärer och säkrad omsättning. Se hur ledande bolag inom enterprise IT, logistik och SaaS bygger sin pipeline med Hard Call Sales.",
+    intro: "Vi mäter framgång i stängda affärer och säkrad omsättning. Se hur ledande bolag inom industriell mjukvara, detaljhandel, HR-tech och SaaS bygger sin pipeline med Hard Call Sales.",
     stat1Value: ">20 MSEK",
     stat1: "Största affärsvärde",
-    stat2Value: "92 %",
-    stat2: "Snitt Show-rate",
-    stat3: "Genomsnittlig ROI",
+    stat2Value: "8",
+    stat2: "Dokumenterade case",
+    stat3Value: "Flera år",
+    stat3: "Längsta samarbete",
     roster: "BOLAG VI LEVERERAT MÖTEN OCH AFFÄRER TILL",
     ctaChip: "PILOTMODELL UTAN BINDNINGSTID",
     ctaTitle: "Vill ni bli vårt nästa framgångscase?",
@@ -29,12 +30,13 @@ const COPY = {
     eyebrowRight: "ENTERPRISE PIPELINES",
     h1a: "Big results for leading ",
     h1b: "B2B & SaaS companies.",
-    intro: "We measure success in closed deals and secured revenue. See how leading companies in enterprise IT, logistics and SaaS build their pipeline with Hard Call Sales.",
+    intro: "We measure success in closed deals and secured revenue. See how leading companies in industrial software, retail, HR tech and SaaS build their pipeline with Hard Call Sales.",
     stat1Value: ">20 MSEK",
     stat1: "Largest deal value",
-    stat2Value: "92%",
-    stat2: "Avg. show rate",
-    stat3: "Average ROI",
+    stat2Value: "8",
+    stat2: "Documented cases",
+    stat3Value: "Several years",
+    stat3: "Longest partnership",
     roster: "COMPANIES WE'VE DELIVERED MEETINGS AND DEALS FOR",
     ctaChip: "PILOT MODEL WITH NO LOCK-IN",
     ctaTitle: "Want to be our next success story?",
@@ -49,10 +51,7 @@ const CLIENT_LOGOS = [
   "IDNet",
   "Wall to Wall Group",
   "Allt om Juridik",
-  "NordTech Solutions",
   "Bumbee Labs",
-  "Vimcar",
-  "SaaS Nordic",
 ];
 
 export function CaseView({ locale }: { locale: Locale }) {
@@ -108,7 +107,7 @@ export function CaseView({ locale }: { locale: Locale }) {
                   <span className="text-[10px] uppercase text-neutral-500">{t.stat2}</span>
                 </div>
                 <div className="border-l border-white/10 pl-6">
-                  <span className="text-white font-semibold text-lg block">3.8x</span>
+                  <span className="text-white font-semibold text-lg block">{t.stat3Value}</span>
                   <span className="text-[10px] uppercase text-neutral-500">{t.stat3}</span>
                 </div>
               </div>
