@@ -1,4 +1,5 @@
 import { NavItem, FooterColumn } from "@/types";
+import type { Locale } from "@/i18n/config";
 
 export const MAIN_NAV_ITEMS: NavItem[] = [
   { label: "Start", href: "/" },
@@ -62,3 +63,22 @@ export const COMPANY_INFO = {
   hours: "Vardagar 08:00 – 17:00 CET",
   copyright: `© ${new Date().getFullYear()} Hard Call Sales. Alla rättigheter förbehållna.`,
 };
+
+// ── English ─────────────────────────────────────────────────
+// Länkarna anges med svenska sökvägar; komponenterna översätter dem med localizeHref().
+export const MAIN_NAV_ITEMS_EN: NavItem[] = [
+  { label: "Home", href: "/" },
+  { label: "LinkedClient", href: "/linkedclient", badge: "AI" },
+  { label: "Cases", href: "/case" },
+  { label: "Leadership", href: "/ledning" },
+  { label: "Careers", href: "/jobba-hos-oss" },
+];
+
+export const PRIMARY_CTA_EN: NavItem = {
+  label: "Book a meeting",
+  href: "/boka-mote",
+  isButton: true,
+};
+
+export const getMainNav = (locale: Locale) => (locale === "en" ? MAIN_NAV_ITEMS_EN : MAIN_NAV_ITEMS);
+export const getPrimaryCta = (locale: Locale) => (locale === "en" ? PRIMARY_CTA_EN : PRIMARY_CTA);

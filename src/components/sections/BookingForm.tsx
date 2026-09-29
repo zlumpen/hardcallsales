@@ -25,6 +25,8 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import { useLocale } from "@/i18n/useLocale";
+import type { Locale } from "@/i18n/config";
 
 export interface BookingFormProps {
   initialService?: string;
@@ -97,7 +99,15 @@ const getInitialInterest = (serviceParam: string): string => {
   return match ? match.id : "motesbokning";
 };
 
-const INDUSTRY_OPTIONS = [
+const INTEREST_TEXT_EN: Record<string, { label: string; desc: string }> = {
+  motesbokning: { label: "B2B Appointment Setting", desc: "10–100 booked meetings per month" },
+  fullstack: { label: "Full-Stack Sales Team", desc: "Complete SDR function & outreach" },
+  linkedclient: { label: "LinkedClient AI Agent", desc: "AI outreach & live demo" },
+  pilotstart: { label: "Pilot Start (3 mo)", desc: "Try it with no lock-in" },
+  ovrigt: { label: "Other / Advisory", desc: "Pipeline analysis & advisory" },
+};
+
+const INDUSTRY_OPTIONS_SV = [
   "SaaS & Molntjänster",
   "IT-konsult & Systemutveckling",
   "Industri, Tillverkning & Tech",
@@ -106,14 +116,30 @@ const INDUSTRY_OPTIONS = [
   "Övrig B2B-verksamhet",
 ];
 
-const MEETING_VOLUME_OPTIONS = [
+const INDUSTRY_OPTIONS_EN = [
+  "SaaS & Cloud Services",
+  "IT Consulting & Software Development",
+  "Industrial, Manufacturing & Tech",
+  "FinTech & Financial Services",
+  "Cybersecurity & IT Infrastructure",
+  "Other B2B Business",
+];
+
+const MEETING_VOLUME_OPTIONS_SV = [
   "10–25 möten per månad",
   "25–50 möten per månad",
   "50–100+ möten per månad",
   "Osäker — behöver rekommendation",
 ];
 
-const REVENUE_OPTIONS = [
+const MEETING_VOLUME_OPTIONS_EN = [
+  "10–25 meetings per month",
+  "25–50 meetings per month",
+  "50–100+ meetings per month",
+  "Not sure — need a recommendation",
+];
+
+const REVENUE_OPTIONS_SV = [
   "Under 10 MSEK",
   "10 – 50 MSEK",
   "50 – 150 MSEK",
@@ -121,10 +147,130 @@ const REVENUE_OPTIONS = [
   "Vill ej ange",
 ];
 
+const REVENUE_OPTIONS_EN = [
+  "Under 10 MSEK",
+  "10 – 50 MSEK",
+  "50 – 150 MSEK",
+  "Over 150 MSEK",
+  "Prefer not to say",
+];
+
+const OPTIONS: Record<Locale, { industry: string[]; volume: string[]; revenue: string[] }> = {
+  sv: { industry: INDUSTRY_OPTIONS_SV, volume: MEETING_VOLUME_OPTIONS_SV, revenue: REVENUE_OPTIONS_SV },
+  en: { industry: INDUSTRY_OPTIONS_EN, volume: MEETING_VOLUME_OPTIONS_EN, revenue: REVENUE_OPTIONS_EN },
+};
+
+const COPY = {
+  sv: {
+    errNameRequired: "Vänligen ange ditt för- och efternamn.",
+    errNameShort: "Namnet är för kort.",
+    errCompany: "Vänligen ange ditt företagsnamn.",
+    errEmailRequired: "Vänligen ange din e-postadress.",
+    errEmailInvalid: "Ange en giltig e-postadress (gärna arbetsmejl).",
+    errPhoneRequired: "Vänligen ange ditt telefonnummer.",
+    errPhoneInvalid: "Ange ett giltigt telefonnummer.",
+    errInterest: "Välj ett primärt intresseområde.",
+    successBadge: "Bokningsförfrågan mottagen",
+    successTitle: "Tack för din bokning, ",
+    successPre: "Vi återkommer inom ",
+    successStrong: "2 timmar",
+    successPost: " under kontorstid med kalenderinbjudan och möteslänk till",
+    summaryTitle: "Sammanfattning av förfrågan",
+    summaryCompany: "Företag:",
+    summaryInterest: "Primärt intresse:",
+    summaryVolume: "Önskad volym:",
+    summaryPhone: "Telefon:",
+    newBooking: "Gör en ny bokning",
+    callUs: "Ring oss direkt: +46 70 850 63 04",
+    badgeCall: "15 min Strategisamtal",
+    badgeReply: "Svar inom 2 timmar",
+    formTitle: "Boka kostnadsfri pipelinegenomgång",
+    formLead: "Fyll i era uppgifter så återkommer en av våra seniora rådgivare med mötesinbjudan och en skräddarsydd analys av er målgrupp.",
+    step1: "1. Vad vill ni diskutera?",
+    step2: "2. Era kontaktuppgifter",
+    nameLabel: "Ditt namn",
+    namePlaceholder: "För- och efternamn",
+    companyLabel: "Företagsnamn",
+    companyPlaceholder: "Företag AB",
+    emailLabel: "Arbetsmejl",
+    emailPlaceholder: "namn@foretag.se",
+    phoneLabel: "Telefonnummer",
+    phonePlaceholder: "+46 70 123 45 67",
+    step3: "3. Bransch, mötesvolym & team",
+    industryLabel: "Bransch / Målgrupp",
+    volumeLabel: "Önskad mötesvolym",
+    revenueLabel: "Omsättning",
+    optional: "(valfritt)",
+    messageLabel: "Nuvarande utmaning eller mål",
+    messagePlaceholder: "Beskriv kort vad ni säljer, vilka roller ni vill boka möten med eller era tillväxtmål...",
+    guarantee1: "Ingen bindning under pilot",
+    guarantee2: "100% transparens i data",
+    guarantee3: "Snabb bekräftelse inom 2h",
+    submitting: "Bokar strategisamtal & förbereder analys...",
+    submit: "Bekräfta och boka strategisamtal",
+  },
+  en: {
+    errNameRequired: "Please enter your first and last name.",
+    errNameShort: "The name is too short.",
+    errCompany: "Please enter your company name.",
+    errEmailRequired: "Please enter your email address.",
+    errEmailInvalid: "Enter a valid email address (work email preferred).",
+    errPhoneRequired: "Please enter your phone number.",
+    errPhoneInvalid: "Enter a valid phone number.",
+    errInterest: "Choose a primary area of interest.",
+    successBadge: "Booking request received",
+    successTitle: "Thanks for booking, ",
+    successPre: "We'll get back to you within ",
+    successStrong: "2 hours",
+    successPost: " during office hours with a calendar invite and meeting link sent to",
+    summaryTitle: "Request summary",
+    summaryCompany: "Company:",
+    summaryInterest: "Primary interest:",
+    summaryVolume: "Desired volume:",
+    summaryPhone: "Phone:",
+    newBooking: "Make a new booking",
+    callUs: "Call us directly: +46 70 850 63 04",
+    badgeCall: "15-min strategy call",
+    badgeReply: "Reply within 2 hours",
+    formTitle: "Book a free pipeline review",
+    formLead: "Fill in your details and one of our senior advisors will get back to you with a meeting invite and a tailored analysis of your target audience.",
+    step1: "1. What would you like to discuss?",
+    step2: "2. Your contact details",
+    nameLabel: "Your name",
+    namePlaceholder: "First and last name",
+    companyLabel: "Company name",
+    companyPlaceholder: "Company Inc.",
+    emailLabel: "Work email",
+    emailPlaceholder: "name@company.com",
+    phoneLabel: "Phone number",
+    phonePlaceholder: "+46 70 123 45 67",
+    step3: "3. Industry, meeting volume & team",
+    industryLabel: "Industry / Target audience",
+    volumeLabel: "Desired meeting volume",
+    revenueLabel: "Revenue",
+    optional: "(optional)",
+    messageLabel: "Current challenge or goal",
+    messagePlaceholder: "Briefly describe what you sell, which roles you want meetings with, or your growth goals...",
+    guarantee1: "No lock-in during the pilot",
+    guarantee2: "100% data transparency",
+    guarantee3: "Fast confirmation within 2h",
+    submitting: "Booking your strategy call & preparing the analysis...",
+    submit: "Confirm and book strategy call",
+  },
+} as const;
+
 export const BookingForm: React.FC<BookingFormProps> = ({
   initialService = "",
   className = "",
 }) => {
+  const locale = useLocale();
+  const t = COPY[locale];
+  const INDUSTRY_OPTIONS = OPTIONS[locale].industry;
+  const MEETING_VOLUME_OPTIONS = OPTIONS[locale].volume;
+  const REVENUE_OPTIONS = OPTIONS[locale].revenue;
+  const optionText = (opt: (typeof INTEREST_OPTIONS)[number]) =>
+    locale === "en" ? INTEREST_TEXT_EN[opt.id] ?? opt : opt;
+
   const [formData, setFormData] = useState<FormState>({
     fullName: "",
     company: "",
@@ -164,31 +310,31 @@ export const BookingForm: React.FC<BookingFormProps> = ({
     const errs: FormErrors = {};
 
     if (!data.fullName.trim()) {
-      errs.fullName = "Vänligen ange ditt för- och efternamn.";
+      errs.fullName = t.errNameRequired;
     } else if (data.fullName.trim().length < 2) {
-      errs.fullName = "Namnet är för kort.";
+      errs.fullName = t.errNameShort;
     }
 
     if (!data.company.trim()) {
-      errs.company = "Vänligen ange ditt företagsnamn.";
+      errs.company = t.errCompany;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!data.email.trim()) {
-      errs.email = "Vänligen ange din e-postadress.";
+      errs.email = t.errEmailRequired;
     } else if (!emailRegex.test(data.email.trim())) {
-      errs.email = "Ange en giltig e-postadress (gärna arbetsmejl).";
+      errs.email = t.errEmailInvalid;
     }
 
     const phoneRegex = /^[+0-9\s-()]{6,20}$/;
     if (!data.phone.trim()) {
-      errs.phone = "Vänligen ange ditt telefonnummer.";
+      errs.phone = t.errPhoneRequired;
     } else if (!phoneRegex.test(data.phone.trim().replace(/\s/g, ""))) {
-      errs.phone = "Ange ett giltigt telefonnummer.";
+      errs.phone = t.errPhoneInvalid;
     }
 
     if (!data.interest) {
-      errs.interest = "Välj ett primärt intresseområde.";
+      errs.interest = t.errInterest;
     }
 
     return errs;
@@ -287,15 +433,15 @@ export const BookingForm: React.FC<BookingFormProps> = ({
 
             <Badge variant="purple-soft" size="md" className="mb-4">
               <Sparkles size={12} className="text-[#7851A9] mr-1" />
-              <span>Bokningsförfrågan mottagen</span>
+              <span>{t.successBadge}</span>
             </Badge>
 
             <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-3">
-              Tack för din bokning, {submittedData.fullName.split(" ")[0]}!
+              {t.successTitle}{submittedData.fullName.split(" ")[0]}!
             </h3>
 
             <p className="text-sm sm:text-base text-[#A8A8A8] leading-relaxed mb-6">
-              Vi återkommer inom <strong className="text-white">2 timmar</strong> under kontorstid med kalenderinbjudan och möteslänk till{" "}
+              {t.successPre}<strong className="text-white">{t.successStrong}</strong>{t.successPost}{" "}
               <span className="text-[#9B7BC7] font-medium">{submittedData.email}</span>.
             </p>
 
@@ -303,24 +449,24 @@ export const BookingForm: React.FC<BookingFormProps> = ({
             <div className="w-full bg-[#1A1A1A] border border-[#2B2B2B] rounded-2xl p-5 mb-8 text-left space-y-3">
               <div className="text-xs font-semibold uppercase tracking-wider text-[#7851A9] flex items-center gap-1.5">
                 <Calendar size={14} />
-                <span>Sammanfattning av förfrågan</span>
+                <span>{t.summaryTitle}</span>
               </div>
 
               <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm">
                 <div>
-                  <span className="text-[#6E6E6E] block text-[11px] uppercase">Företag:</span>
+                  <span className="text-[#6E6E6E] block text-[11px] uppercase">{t.summaryCompany}</span>
                   <span className="text-white font-medium">{submittedData.company}</span>
                 </div>
                 <div>
-                  <span className="text-[#6E6E6E] block text-[11px] uppercase">Primärt intresse:</span>
-                  <span className="text-white font-medium">{selectedInterestObj?.label}</span>
+                  <span className="text-[#6E6E6E] block text-[11px] uppercase">{t.summaryInterest}</span>
+                  <span className="text-white font-medium">{selectedInterestObj ? optionText(selectedInterestObj).label : undefined}</span>
                 </div>
                 <div>
-                  <span className="text-[#6E6E6E] block text-[11px] uppercase">Önskad volym:</span>
+                  <span className="text-[#6E6E6E] block text-[11px] uppercase">{t.summaryVolume}</span>
                   <span className="text-white font-medium">{submittedData.meetingVolume}</span>
                 </div>
                 <div>
-                  <span className="text-[#6E6E6E] block text-[11px] uppercase">Telefon:</span>
+                  <span className="text-[#6E6E6E] block text-[11px] uppercase">{t.summaryPhone}</span>
                   <span className="text-white font-medium">{submittedData.phone}</span>
                 </div>
               </div>
@@ -333,7 +479,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                 onClick={resetForm}
                 className="text-xs sm:text-sm w-full sm:w-auto"
               >
-                Gör en ny bokning
+                {t.newBooking}
               </Button>
               <Button
                 href="tel:+46708506304"
@@ -342,7 +488,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                 isExternal
                 className="text-xs sm:text-sm w-full sm:w-auto"
               >
-                Ring oss direkt: +46 70 850 63 04
+                {t.callUs}
               </Button>
             </div>
           </div>
@@ -354,19 +500,19 @@ export const BookingForm: React.FC<BookingFormProps> = ({
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-3">
                 <Badge variant="purple-soft" size="sm">
                   <Sparkles size={12} className="text-[#7851A9]" />
-                  <span>15 min Strategisamtal</span>
+                  <span>{t.badgeCall}</span>
                 </Badge>
                 <Badge variant="glass" size="sm">
                   <Clock size={12} className="mr-1 text-[#9B7BC7]" />
-                  <span>Svar inom 2 timmar</span>
+                  <span>{t.badgeReply}</span>
                 </Badge>
               </div>
 
               <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-                Boka kostnadsfri pipelinegenomgång
+                {t.formTitle}
               </h3>
               <p className="text-sm sm:text-base text-[#A8A8A8] max-w-2xl">
-                Fyll i era uppgifter så återkommer en av våra seniora rådgivare med mötesinbjudan och en skräddarsydd analys av er målgrupp.
+                {t.formLead}
               </p>
             </div>
 
@@ -374,7 +520,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
               {/* Step 1: Intresseval */}
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-[#A8A8A8] mb-3">
-                  1. Vad vill ni diskutera? <span className="text-[#7851A9]">*</span>
+                  {t.step1} <span className="text-[#7851A9]">*</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {INTEREST_OPTIONS.map((opt) => {
@@ -404,10 +550,10 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                         </div>
                         <div className="flex-1 min-w-0 pr-4">
                           <p className="text-xs sm:text-sm font-semibold text-white truncate">
-                            {opt.label}
+                            {optionText(opt).label}
                           </p>
                           <p className="text-[11px] text-[#8E8E8E] leading-tight mt-0.5">
-                            {opt.desc}
+                            {optionText(opt).desc}
                           </p>
                         </div>
                         {isSelected && (
@@ -424,7 +570,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
               {/* Step 2: Kontaktuppgifter */}
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-[#A8A8A8] mb-3">
-                  2. Era kontaktuppgifter
+                  {t.step2}
                 </label>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -434,7 +580,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       htmlFor="booking-fullName"
                       className="block text-xs font-medium text-[#CCCCCC] mb-1.5"
                     >
-                      Ditt namn <span className="text-[#7851A9]">*</span>
+                      {t.nameLabel} <span className="text-[#7851A9]">*</span>
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#6E6E6E]">
@@ -447,7 +593,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                         value={formData.fullName}
                         onChange={handleChange}
                         onBlur={() => handleBlur("fullName")}
-                        placeholder="För- och efternamn"
+                        placeholder={t.namePlaceholder}
                         className={cn(
                           "w-full pl-10 pr-4 py-3 bg-[#181818] border rounded-xl text-sm text-white placeholder-[#5A5A5A] transition-all focus:outline-none focus:ring-2 focus:ring-[#7851A9] focus:border-transparent",
                           errors.fullName && touched.fullName
@@ -471,7 +617,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       htmlFor="booking-company"
                       className="block text-xs font-medium text-[#CCCCCC] mb-1.5"
                     >
-                      Företagsnamn <span className="text-[#7851A9]">*</span>
+                      {t.companyLabel} <span className="text-[#7851A9]">*</span>
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#6E6E6E]">
@@ -484,7 +630,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                         value={formData.company}
                         onChange={handleChange}
                         onBlur={() => handleBlur("company")}
-                        placeholder="Företag AB"
+                        placeholder={t.companyPlaceholder}
                         className={cn(
                           "w-full pl-10 pr-4 py-3 bg-[#181818] border rounded-xl text-sm text-white placeholder-[#5A5A5A] transition-all focus:outline-none focus:ring-2 focus:ring-[#7851A9] focus:border-transparent",
                           errors.company && touched.company
@@ -508,7 +654,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       htmlFor="booking-email"
                       className="block text-xs font-medium text-[#CCCCCC] mb-1.5"
                     >
-                      Arbetsmejl <span className="text-[#7851A9]">*</span>
+                      {t.emailLabel} <span className="text-[#7851A9]">*</span>
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#6E6E6E]">
@@ -521,7 +667,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                         value={formData.email}
                         onChange={handleChange}
                         onBlur={() => handleBlur("email")}
-                        placeholder="namn@foretag.se"
+                        placeholder={t.emailPlaceholder}
                         className={cn(
                           "w-full pl-10 pr-4 py-3 bg-[#181818] border rounded-xl text-sm text-white placeholder-[#5A5A5A] transition-all focus:outline-none focus:ring-2 focus:ring-[#7851A9] focus:border-transparent",
                           errors.email && touched.email
@@ -545,7 +691,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       htmlFor="booking-phone"
                       className="block text-xs font-medium text-[#CCCCCC] mb-1.5"
                     >
-                      Telefonnummer <span className="text-[#7851A9]">*</span>
+                      {t.phoneLabel} <span className="text-[#7851A9]">*</span>
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#6E6E6E]">
@@ -558,7 +704,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                         value={formData.phone}
                         onChange={handleChange}
                         onBlur={() => handleBlur("phone")}
-                        placeholder="+46 70 123 45 67"
+                        placeholder={t.phonePlaceholder}
                         className={cn(
                           "w-full pl-10 pr-4 py-3 bg-[#181818] border rounded-xl text-sm text-white placeholder-[#5A5A5A] transition-all focus:outline-none focus:ring-2 focus:ring-[#7851A9] focus:border-transparent",
                           errors.phone && touched.phone
@@ -581,7 +727,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
               {/* Step 3: Företagskontext & Volym */}
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-[#A8A8A8] mb-3">
-                  3. Bransch, mötesvolym & team
+                  {t.step3}
                 </label>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -591,7 +737,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       htmlFor="booking-industry"
                       className="block text-xs font-medium text-[#CCCCCC] mb-1.5"
                     >
-                      Bransch / Målgrupp
+                      {t.industryLabel}
                     </label>
                     <select
                       id="booking-industry"
@@ -614,7 +760,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       htmlFor="booking-meetingVolume"
                       className="block text-xs font-medium text-[#CCCCCC] mb-1.5"
                     >
-                      Önskad mötesvolym
+                      {t.volumeLabel}
                     </label>
                     <select
                       id="booking-meetingVolume"
@@ -637,7 +783,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                       htmlFor="booking-revenueBracket"
                       className="block text-xs font-medium text-[#CCCCCC] mb-1.5"
                     >
-                      Omsättning <span className="text-[#6E6E6E] font-normal">(valfritt)</span>
+                      {t.revenueLabel} <span className="text-[#6E6E6E] font-normal">{t.optional}</span>
                     </label>
                     <select
                       id="booking-revenueBracket"
@@ -662,7 +808,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                   htmlFor="booking-message"
                   className="block text-xs font-semibold uppercase tracking-wider text-[#A8A8A8] mb-2"
                 >
-                  Nuvarande utmaning eller mål <span className="text-[#6E6E6E] font-normal lowercase">(valfritt)</span>
+                  {t.messageLabel} <span className="text-[#6E6E6E] font-normal lowercase">{t.optional}</span>
                 </label>
                 <textarea
                   id="booking-message"
@@ -670,7 +816,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                   rows={3}
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Beskriv kort vad ni säljer, vilka roller ni vill boka möten med eller era tillväxtmål..."
+                  placeholder={t.messagePlaceholder}
                   className="w-full px-4 py-3 bg-[#181818] border border-[#2B2B2B] hover:border-white/20 rounded-xl text-sm text-white placeholder-[#5A5A5A] transition-all focus:outline-none focus:ring-2 focus:ring-[#7851A9] focus:border-transparent resize-y"
                 />
               </div>
@@ -679,15 +825,15 @@ export const BookingForm: React.FC<BookingFormProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs text-[#A8A8A8] border-t border-white/5">
                 <div className="flex items-center gap-2">
                   <Shield size={14} className="text-[#9B7BC7] shrink-0" />
-                  <span>Ingen bindning under pilot</span>
+                  <span>{t.guarantee1}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 size={14} className="text-[#9B7BC7] shrink-0" />
-                  <span>100% transparens i data</span>
+                  <span>{t.guarantee2}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock size={14} className="text-[#9B7BC7] shrink-0" />
-                  <span>Snabb bekräftelse inom 2h</span>
+                  <span>{t.guarantee3}</span>
                 </div>
               </div>
 
@@ -704,11 +850,11 @@ export const BookingForm: React.FC<BookingFormProps> = ({
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">
                       <Loader2 size={18} className="animate-spin" />
-                      <span>Bokar strategisamtal & förbereder analys...</span>
+                      <span>{t.submitting}</span>
                     </span>
                   ) : (
                     <span className="flex items-center justify-center gap-2">
-                      <span>Bekräfta och boka strategisamtal</span>
+                      <span>{t.submit}</span>
                       <ArrowRight size={16} />
                     </span>
                   )}

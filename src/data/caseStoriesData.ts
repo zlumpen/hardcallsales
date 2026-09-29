@@ -1,3 +1,5 @@
+import type { Locale } from "@/i18n/config";
+
 export interface CaseStory {
   id: string;
   client: string;
@@ -158,3 +160,146 @@ export const HCS_STORIES: CaseStory[] = [
     href: "/case",
   },
 ];
+
+export const HCS_STORIES_EN: CaseStory[] = [
+  {
+    id: "aveva",
+    client: "AVEVA Select Scandinavia",
+    logo: "/images/logos/logo-aveva.png",
+    industry: "Enterprise Industrial Software",
+    event: "45+ C-level meetings that generated >20 MSEK in business",
+    teaser: "AVEVA engaged us for a trial period of appointment setting targeting large enterprise companies. The engagement contributed to deals worth more than SEK 20 million.",
+    fullStory: "AVEVA is a global leader in industrial software, with solutions used by the world's largest manufacturing and energy companies. AVEVA Select Scandinavia – formerly known as Wonderware Scandinavia – engaged us for a trial period of appointment setting targeting large enterprise companies. The engagement contributed to deals worth more than SEK 20 million. The partnership continued from there, and our work was recommended onward, which led to new engagements.",
+    stats: { primary: ">20 MSEK", secondary: "45+ Meetings", metric: "92% Show rate" },
+    deliveryDetails: {
+      scope: "Enterprise prospecting & phone-based follow-up",
+      target: "CTOs, CIOs and technical operations leaders in Nordic heavy process and energy industries",
+      outcome: "More than 20 MSEK in new business, plus an onward referral to Roima Intelligence"
+    },
+    accent: "#7851A9",
+    href: "/case",
+  },
+  {
+    id: "monster",
+    client: "Monster",
+    logo: "/images/logos/logo-monster-white.svg",
+    industry: "B2B HR Tech & Recruitment",
+    event: "120+ meetings booked with HR leaders & CEOs across the Nordics",
+    teaser: "Over several rounds, we have supported Monster's Swedish sales team with appointment setting targeting relevant decision-makers as they launched new services.",
+    fullStory: "Monster is the world's largest recruitment company and a pioneer in digital talent acquisition. Over several rounds, we have supported their Swedish sales team with appointment setting targeting relevant decision-makers as they launched new services. An engagement where we combined business-driven prospecting with a deep understanding of complex B2B sales in HR tech.",
+    stats: { primary: "120+ Meetings", secondary: "4.2x ROI", metric: "89% Show rate" },
+    deliveryDetails: {
+      scope: "Launch support & targeted, business-driven B2B prospecting",
+      target: "HR directors, heads of recruitment & CEOs at mid-sized and large companies",
+      outcome: "120+ qualified conversations and a strong foothold for new recruitment solutions"
+    },
+    accent: "#8B5CF6",
+    href: "/case",
+  },
+  {
+    id: "wall-to-wall",
+    client: "Wall to Wall Group",
+    logo: "/images/logos/logo-wall-to-wall.png",
+    industry: "Property Services & Pipe Relining",
+    event: "Meeting booking and home visits for a listed group and Repipe",
+    teaser: "A publicly listed group with 26 subsidiaries. Across several campaign periods, we have supported the team with meeting booking and home visits for Wall to Wall and Repipe.",
+    fullStory: "Wall to Wall Group is a publicly listed company with 26 subsidiaries, operating in property services, renovation and pipe relining. Across several campaign periods, we have supported their team with meeting booking and customer outreach for home visits — for Wall to Wall Group and their relining company Repipe. We also had the pleasure of visiting their headquarters in Kristianstad and meeting their leadership and staff — a dedicated, professional team with strong growth, clear processes and a focus on quality in every job.",
+    stats: { primary: "26 Companies", secondary: "65+ Home visits", metric: "34% Conversion" },
+    deliveryDetails: {
+      scope: "Multi-company campaign & outbound customer outreach for home visits",
+      target: "Property owners, property managers and housing cooperative boards",
+      outcome: "A high inflow of booked visits, integrated directly into Repipe's local sales reps' calendars"
+    },
+    accent: "#0EA5E9",
+    href: "/case",
+  },
+  {
+    id: "allt-om-juridik",
+    client: "Allt om Juridik",
+    logo: "/images/logos/logo-allt-om-juridik.png",
+    industry: "B2B Legal Services (Blendow Group)",
+    event: "Targeted campaigns to decision-makers for a new service launch",
+    teaser: "Part of Blendow Group – Sweden's leading provider of legal expertise. We ran targeted campaigns and booked meetings across multiple industries.",
+    fullStory: "Allt om Juridik is part of Blendow Group – Sweden's largest provider of legal knowledge and expertise. As part of our partnership, we ran targeted email campaigns and booked meetings with decision-makers across several industries, tied to the launch of their new service. It was a highly rewarding collaboration where we not only delivered results, but also got to draw on their deep legal expertise and structured way of working.",
+    stats: { primary: "150+ Meetings", secondary: "3.8x ROI", metric: "91% Show rate" },
+    deliveryDetails: {
+      scope: "Targeted email outreach combined with personal phone follow-up",
+      target: "CEOs, CFOs and HR leaders across Swedish industry",
+      outcome: "Rapid market penetration for the new service and a proven high show rate"
+    },
+    accent: "#E11D48",
+    href: "/case",
+  },
+  {
+    id: "idnet",
+    client: "IDNet",
+    logo: "/images/logos/logo-idnet.png",
+    industry: "Logistics & ESL Technology",
+    event: "Meeting booking with retailers for real-time in-store communication",
+    teaser: "A global leader in ESL (Electronic Shelf Labels) technology. On several occasions, we have supported the sales team with appointment setting targeting the retail sector.",
+    fullStory: "IDNET is a global leader in ESL (Electronic Shelf Labels) technology, offering solutions that streamline in-store communication in real time. On several occasions, we have supported their sales team with appointment setting targeting retail players. The partnership has been both rewarding and inspiring, giving us insight into a fast-moving industry.",
+    stats: { primary: "85+ Meetings", secondary: "SEK 650k Avg. order", metric: "88% Show rate" },
+    deliveryDetails: {
+      scope: "Technical B2B prospecting and qualified appointment setting",
+      target: "Store managers, IT managers and logistics leads in Nordic retail",
+      outcome: "Established strategic conversations and accelerated the adoption of ESL solutions"
+    },
+    accent: "#EA580C",
+    href: "/case",
+  },
+  {
+    id: "milient",
+    client: "Milient",
+    logo: "/images/logos/logo-milient.png",
+    industry: "Time Tracking & Project Accounting SaaS",
+    event: "Multi-year partnership combining appointment setting and AI-driven solutions",
+    teaser: "The largest provider in its segment in the Nordics. For several years, we have supported Milient with appointment setting – now also combined with AI-driven solutions.",
+    fullStory: "Milient Software is one of Europe's leading players in time tracking and project accounting. Through strategic mergers and acquisitions, they have grown into the largest provider in their segment in the Nordics. For several years – and still today – we have supported Milient with appointment setting, now also combined with AI-driven solutions. It is a real privilege to work closely with their team in a long-term partnership that keeps evolving.",
+    stats: { primary: "Multi-year", secondary: "3.2 MSEK Revenue", metric: "6 Framework agreements" },
+    deliveryDetails: {
+      scope: "Long-term sales support & AI-integrated outreach methodology",
+      target: "CFOs, CEOs and partners at Nordic consulting and project-based firms",
+      outcome: "A multi-year partnership with a steady flow of qualified meetings"
+    },
+    accent: "#8B5CF6",
+    href: "/case",
+  },
+  {
+    id: "bumbee-labs",
+    client: "Bumbee Labs",
+    logo: "/images/logos/logo-bumbee-labs.png",
+    industry: "Retail Tech & Footfall Analytics",
+    event: "International appointment setting for multi-country expansion",
+    teaser: "A leading player in footfall analytics. We supported the business development team with appointment setting in several countries under Magnus Johansson (former CEO of Coop).",
+    fullStory: "Bumbee Labs is a leading player in footfall analytics and retail tech. During a campaign period when Magnus Johansson – former CEO of Coop Sweden – was leading the company, we supported them with appointment setting in several countries. The engagement was carried out for their business development team, with the aim of reaching the right decision-makers in retail.",
+    stats: { primary: "Multi-Market", secondary: "Several countries", metric: "Retail tech" },
+    deliveryDetails: {
+      scope: "International prospecting & appointment setting for business development",
+      target: "Decision-makers, expansion managers and operations leads in retail",
+      outcome: "Established strategic meetings across several European markets",
+    },
+    accent: "#F97316",
+    href: "/case",
+  },
+  {
+    id: "roima",
+    client: "Roima Intelligence",
+    logo: "/images/logos/logo-roima.png",
+    industry: "Industrial Software & Digitalization",
+    event: "Appointment setting with strategic decision-makers via an AVEVA referral",
+    teaser: "A global leader in industrial software. The engagement came via a referral from AVEVA Select Scandinavia, with appointment setting targeting strategic decision-makers.",
+    fullStory: "Roima Intelligence is a global leader in industrial software implementation, focused on optimizing processes, productivity and digital transformation in manufacturing. The engagement came to us through a referral from AVEVA Select Scandinavia, and we have since supported Roima over several rounds with appointment setting targeting strategic decision-makers.",
+    stats: { primary: "Enterprise", secondary: "40+ Meetings", metric: "90% Show rate" },
+    deliveryDetails: {
+      scope: "Strategic C-level prospecting and appointment setting",
+      target: "Production managers, CTOs and digitalization leaders in manufacturing",
+      outcome: "Stronger business conversations and accelerated implementation projects"
+    },
+    accent: "#059669",
+    href: "/case",
+  },
+];
+
+export function getCaseStories(locale: Locale): CaseStory[] {
+  return locale === "en" ? HCS_STORIES_EN : HCS_STORIES;
+}

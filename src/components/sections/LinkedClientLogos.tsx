@@ -2,6 +2,20 @@
 
 import React from "react";
 import Image from "next/image";
+import { useLocale } from "@/i18n/useLocale";
+
+const COPY = {
+  sv: {
+    eyebrow: "Validerat av marknaden",
+    title: "Betrodd av världsledande varumärken och B2B-ledare",
+    proof: "Dokumenterad mötesbokning & ROI",
+  },
+  en: {
+    eyebrow: "Validated by the market",
+    title: "Trusted by world-leading brands and B2B leaders",
+    proof: "Proven meeting booking & ROI",
+  },
+} as const;
 
 interface PartnerLogo {
   name: string;
@@ -22,6 +36,7 @@ const partnerLogos: PartnerLogo[] = [
 ];
 
 export const LinkedClientLogos: React.FC = () => {
+  const t = COPY[useLocale()];
   return (
     <section className="w-full bg-[#000000] border-t border-white/[0.08] py-14 sm:py-16 relative z-10">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16">
@@ -29,15 +44,15 @@ export const LinkedClientLogos: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 pb-6 border-b border-white/[0.06]">
           <div>
             <span className="text-[11px] font-mono tracking-widest uppercase text-neutral-500 block mb-1">
-              Validerat av marknaden
+              {t.eyebrow}
             </span>
             <h2 className="text-lg sm:text-xl font-normal text-neutral-200 tracking-tight">
-              Betrodd av världsledande varumärken och B2B-ledare
+              {t.title}
             </h2>
           </div>
           <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
             <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span>Dokumenterad mötesbokning & ROI</span>
+            <span>{t.proof}</span>
           </div>
         </div>
 

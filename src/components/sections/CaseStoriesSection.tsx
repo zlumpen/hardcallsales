@@ -3,7 +3,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, TrendingUp, CheckCircle2, ChevronDown, ChevronUp, Sparkles, X } from "lucide-react";
-import { HCS_STORIES, type CaseStory } from "@/data/caseStoriesData";
+import { HCS_STORIES, getCaseStories, type CaseStory } from "@/data/caseStoriesData";
+import { useLocale } from "@/i18n/useLocale";
 import { openCalModal, DEFAULT_CAL_LINK } from "@/components/cal/CalProvider";
 
 // Skickar bilden via Vercels bildoptimering (webp/avif i rätt storlek per skärm)
@@ -12,8 +13,40 @@ const optSet = (src: string, widths: number[]) => widths.map((w) => `${opt(src, 
 
 export { HCS_STORIES };
 
+const COPY = {
+  sv: {
+    hide: "Dölj kundberättelse",
+    expand: "Klicka för att expandera uppdraget",
+    background: "BAKGRUND & SAMARBETE",
+    scope: "OMFATTNING",
+    target: "MÅLGRUPP",
+    outcome: "LEVERERAT UTFALL",
+    close: "Stäng [ × ]",
+    bookSimilar: "Boka liknande upplägg",
+    eyebrow: "DOKUMENTERADE KUNDRESULTAT",
+    titleA: "Stora resultat för ledande ",
+    titleB: "B2B- & SaaS-bolag",
+    intro: "Se hur bolag som AVEVA, Monster, IDNet och Wall to Wall Group bygger förutsägbara mötespipelines med Hard Call Sales.",
+  },
+  en: {
+    hide: "Hide client story",
+    expand: "Click to expand the engagement",
+    background: "BACKGROUND & PARTNERSHIP",
+    scope: "SCOPE",
+    target: "TARGET AUDIENCE",
+    outcome: "DELIVERED OUTCOME",
+    close: "Close [ × ]",
+    bookSimilar: "Book a similar setup",
+    eyebrow: "DOCUMENTED CLIENT RESULTS",
+    titleA: "Big results for leading ",
+    titleB: "B2B & SaaS companies",
+    intro: "See how companies like AVEVA, Monster, IDNet and Wall to Wall Group build predictable meeting pipelines with Hard Call Sales.",
+  },
+} as const;
+
 export function StoryCard({ story }: { story: typeof HCS_STORIES[0] }) {
   const [isOpen, setIsOpen] = useState(false);
+  const t = COPY[useLocale()];
 
   return (
     <div
@@ -91,7 +124,7 @@ export function StoryCard({ story }: { story: typeof HCS_STORIES[0] }) {
 
           {/* Discreet Hint */}
           <div className="flex items-center gap-1.5 text-[10.5px] font-mono tracking-wider text-neutral-500 group-hover:text-neutral-400 transition-colors uppercase pt-1">
-            <span>{isOpen ? "Dölj kundberättelse" : "Klicka för att expandera uppdraget"}</span>
+            <span>{isOpen ? t.hide : t.expand}</span>
             <span className="text-xs">{isOpen ? "↑" : "→"}</span>
           </div>
 
@@ -104,7 +137,7 @@ export function StoryCard({ story }: { story: typeof HCS_STORIES[0] }) {
               {/* Full Story from hardcallsales.se */}
               <div className="bg-white/[0.02] border border-white/[0.05] rounded-xl p-5 sm:p-7 mb-5">
                 <span className="block text-[10px] font-mono uppercase tracking-widest text-neutral-400 mb-2.5 font-medium">
-                  BAKGRUND &amp; SAMARBETE
+                  {t.background}
                 </span>
                 <p className="text-[13.5px] sm:text-[14.5px] text-neutral-200 leading-relaxed font-sans font-light">
                   {story.fullStory}
@@ -115,7 +148,7 @@ export function StoryCard({ story }: { story: typeof HCS_STORIES[0] }) {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 sm:p-5 rounded-xl bg-black/40 border border-white/[0.04] mb-5">
                 <div>
                   <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500 block mb-1">
-                    OMFATTNING
+                    {t.scope}
                   </span>
                   <span className="text-xs text-neutral-300 font-light leading-relaxed block">
                     {story.deliveryDetails.scope}
@@ -123,7 +156,7 @@ export function StoryCard({ story }: { story: typeof HCS_STORIES[0] }) {
                 </div>
                 <div>
                   <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500 block mb-1">
-                    MÅLGRUPP
+                    {t.target}
                   </span>
                   <span className="text-xs text-neutral-300 font-light leading-relaxed block">
                     {story.deliveryDetails.target}
@@ -131,7 +164,7 @@ export function StoryCard({ story }: { story: typeof HCS_STORIES[0] }) {
                 </div>
                 <div>
                   <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">
-                    LEVERERAT UTFALL
+                    {t.outcome}
                   </span>
                   <span className="text-xs text-white font-medium leading-relaxed block">
                     {story.deliveryDetails.outcome}
@@ -146,7 +179,7 @@ export function StoryCard({ story }: { story: typeof HCS_STORIES[0] }) {
                   onClick={() => setIsOpen(false)}
                   className="text-xs font-mono uppercase tracking-wider text-neutral-400 hover:text-white transition-colors cursor-pointer"
                 >
-                  Stäng [ × ]
+                  {t.close}
                 </button>
                 <button
                   type="button"
@@ -158,7 +191,7 @@ export function StoryCard({ story }: { story: typeof HCS_STORIES[0] }) {
                   data-cal-config='{"layout":"month_view","theme":"dark"}'
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black font-medium text-xs tracking-wider uppercase hover:bg-neutral-200 transition-all shadow-md cursor-pointer"
                 >
-                  <span>Boka liknande upplägg</span>
+                  <span>{t.bookSimilar}</span>
                   <ArrowRight size={13} />
                 </button>
               </div>
@@ -173,6 +206,9 @@ export function StoryCard({ story }: { story: typeof HCS_STORIES[0] }) {
 export const CaseStoriesSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [exitProgress, setExitProgress] = useState(0);
+  const locale = useLocale();
+  const t = COPY[locale];
+  const stories = getCaseStories(locale);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -210,22 +246,22 @@ export const CaseStoriesSection: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-neutral-400 mb-3">
               <span className="w-1.5 h-1.5 rounded-full bg-white/60" />
-              <span>DOKUMENTERADE KUNDRESULTAT</span>
+              <span>{t.eyebrow}</span>
             </div>
             <h2 className="text-3xl sm:text-5xl lg:text-[54px] font-normal tracking-tight text-white leading-[1.1]">
-              Stora resultat för ledande <br className="hidden sm:block" />
-              B2B- &amp; SaaS-bolag
+              {t.titleA}<br className="hidden sm:block" />
+              {t.titleB}
             </h2>
           </div>
 
           <p className="text-sm sm:text-base text-[#9E9E9E] font-normal leading-relaxed max-w-md">
-            Se hur bolag som AVEVA, Monster, IDNet och Wall to Wall Group bygger förutsägbara mötespipelines med Hard Call Sales.
+            {t.intro}
           </p>
         </div>
 
         {/* 2x2x2 Box Grid (3 rows x 2 columns) with identical visual cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-start">
-          {HCS_STORIES.map((story, i) => (
+          {stories.map((story, i) => (
             <StoryCard key={i} story={story} />
           ))}
         </div>

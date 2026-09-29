@@ -1,4 +1,5 @@
 import { FaqItem } from "@/types";
+import type { Locale } from "@/i18n/config";
 
 export const FAQS: FaqItem[] = [
   {
@@ -50,3 +51,59 @@ export const FAQS: FaqItem[] = [
     category: "Allmänt",
   },
 ];
+
+// Kategori-id:n är svenska och identiska i båda språken (används för filtrering).
+export const FAQS_EN: FaqItem[] = [
+  {
+    question: "How quickly can we get a pilot up and running?",
+    answer:
+      "Once the kickoff workshop is complete and the ICP (Ideal Customer Profile) is approved, we set up the technical infrastructure, calendar integrations and scripts. Campaigns and calls normally go live within 5–10 business days.",
+    category: "Pilotmodellen",
+  },
+  {
+    question: "What happens if a booked meeting doesn't show up (no-show)?",
+    answer:
+      "We take full responsibility all the way until the meeting takes place. If a decision-maker doesn't show, our team follows up and rebooks the meeting at no extra cost to you.",
+    category: "Pilotmodellen",
+  },
+  {
+    question: "Are we locked into a long-term commitment?",
+    answer:
+      "No. Our pilot model runs for exactly 3 months with no automatic renewal. After the period, we jointly evaluate the ROI and you are free to decide whether and how to scale further.",
+    category: "Pilotmodellen",
+  },
+  {
+    question: "How is a qualified meeting defined?",
+    answer:
+      "During the kickoff workshop, we define your exact qualification criteria together (e.g. company size, role/title, revenue, tech stack and area of interest). Only meetings that meet every requirement count toward delivery.",
+    category: "Pilotmodellen",
+  },
+  {
+    question: "What is LinkedClient and how does it work with your sales reps?",
+    answer:
+      "LinkedClient is a groundbreaking AI sales agent that analyzes profiles and buying signals and sends personalized sequences via LinkedIn and email. Once the agent opens a conversation, our senior sales reps take over by phone to qualify and book the meeting in your calendar.",
+    category: "Tjänster",
+  },
+  {
+    question: "Which CRM systems can you integrate with?",
+    answer:
+      "We integrate seamlessly with all leading CRM platforms, including HubSpot, Salesforce, Pipedrive, Microsoft Dynamics and Upsales, as well as calendars such as Google Calendar and Microsoft Outlook.",
+    category: "Teknik & Integration",
+  },
+  {
+    question: "Who owns the data and contacts generated during the campaign?",
+    answer:
+      "You own 100% of all audience data, email lists, notes and contact details generated during the partnership. All information is exported directly to your CRM.",
+    category: "Allmänt",
+  },
+  {
+    question: "What does the pricing model look like?",
+    answer:
+      "We use a transparent model tailored to tech and SaaS companies: a fixed setup and operating fee combined with performance-based compensation per qualified meeting delivered.",
+    category: "Allmänt",
+  },
+];
+
+export function getFaqs(locale: Locale): FaqItem[] {
+  return locale === "en" ? FAQS_EN : FAQS;
+}

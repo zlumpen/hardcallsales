@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/Button";
 import { AuraBackground } from "@/components/ui/AuraBackground";
+import { useLocale, useLocalizedHref } from "@/i18n/useLocale";
 
 interface MetricStep {
   number: string;
@@ -36,8 +37,51 @@ const METRIC_STEPS: MetricStep[] = [
   },
 ];
 
+const METRIC_STEPS_EN: MetricStep[] = [
+  {
+    number: "100M+",
+    title: "100 million in the database",
+    description:
+      "We filter out exactly the decision-makers who match your ideal customer profile — and cut out all the noise.",
+    highlightWords: ["ideal customer profile", "cut out"],
+  },
+  {
+    number: "70,000+",
+    title: "70,000 new contacts",
+    description:
+      "While we book your meetings, your network grows with relevant decision-makers. Contacts you own forever.",
+    highlightWords: ["your network grows", "own forever"],
+  },
+  {
+    number: "Autopilot",
+    title: "Ongoing lead generation",
+    description:
+      "Once the network is built, we keep engaging. We warm up cold contacts and activate them the moment a need arises.",
+    highlightWords: ["we keep engaging", "activate them"],
+  },
+];
+
+const COPY = {
+  sv: {
+    steps: METRIC_STEPS,
+    tag: "02 / NÄTVERKET",
+    h2a: "Vi bygger ert nätverk –",
+    h2b: "samtidigt som vi bokar era möten",
+    cta: "Boka ett möte",
+  },
+  en: {
+    steps: METRIC_STEPS_EN,
+    tag: "02 / THE NETWORK",
+    h2a: "We build your network –",
+    h2b: "while we book your meetings",
+    cta: "Book a meeting",
+  },
+};
+
 export const ScrollMetricsStorySection: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const t = COPY[useLocale()];
+  const lh = useLocalizedHref();
   const sectionRef = useRef<HTMLDivElement>(null);
   
   // Kontinuerlig reveal-effekt när sektionen scrollas in
@@ -110,7 +154,7 @@ export const ScrollMetricsStorySection: React.FC = () => {
                 style={{ opacity: revealProgress }}
               >
                 <span className="text-xs sm:text-[13px] font-mono tracking-[0.22em] text-white/50 uppercase">
-                  02 / NÄTVERKET
+                  {t.tag}
                 </span>
               </div>
 
@@ -131,16 +175,16 @@ export const ScrollMetricsStorySection: React.FC = () => {
               {/* Permanent Big Bold Headline (No underline, 2 clean lines) */}
               <div className="pb-8 lg:pb-10 border-b border-white/10 flex items-center">
                 <h2 className="text-3xl sm:text-4xl lg:text-[44px] xl:text-[52px] font-normal text-white leading-[1.18] tracking-tight max-w-5xl">
-                  Vi bygger ert nätverk –
+                  {t.h2a}
                   <span className="block mt-1 sm:mt-2">
-                    samtidigt som vi bokar era möten
+                    {t.h2b}
                   </span>
                 </h2>
               </div>
 
               {/* Bottom Rows: 3 Metrics with certified depth-of-field blur */}
               <div className="flex-1 flex flex-col justify-around pt-6 sm:pt-8 lg:pt-10 pb-4 sm:pb-6">
-                {METRIC_STEPS.map((step, idx) => {
+                {t.steps.map((step, idx) => {
                   const isActive = idx === activeIndex;
                   return (
                     <div
@@ -180,13 +224,13 @@ export const ScrollMetricsStorySection: React.FC = () => {
                 {/* ── CALL TO ACTION KNAPP UNDER AUTOPILOT ── */}
                 <div className="pt-4 sm:pt-6 flex items-center">
                   <Button
-                    href="/boka-mote"
+                    href={lh("/boka-mote")}
                     variant="primary"
                     size="lg"
                     hasArrow
                     className="shadow-2xl shadow-[#7851A9]/30"
                   >
-                    Boka ett möte
+                    {t.cta}
                   </Button>
                 </div>
               </div>

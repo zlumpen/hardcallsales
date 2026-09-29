@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { AuraBackground } from "@/components/ui/AuraBackground";
+import { useLocale, useLocalizedHref } from "@/i18n/useLocale";
 
 interface LeaderCard {
   num: string;
@@ -65,8 +66,94 @@ const LEADERS: LeaderCard[] = [
   },
 ];
 
+const LEADERS_EN: LeaderCard[] = [
+  {
+    num: "/01",
+    roleTag: "Head of AI Sales",
+    name: "Malin Berlin",
+    desc: "Malin leads the Swedish office and is responsible for AI Sales, European client relationships and partnership agreements.",
+    slug: "malin",
+    avatar: "/images/team/team-malin.webp",
+  },
+  {
+    num: "/02",
+    roleTag: "Founder & Partner",
+    name: "Pontus Bredal-Hansen",
+    desc: "Founded HCS in Malta in 2017 after topping the revenue charts. The architect behind our campaign methodology, network building and AI integration.",
+    slug: "pontus",
+    avatar: "/images/team/team-pontus.webp",
+  },
+  {
+    num: "/03",
+    roleTag: "Founder & COO",
+    name: "Joakim Ström",
+    desc: "Founded HCS in 2017. A passionate sales and culture builder who has read more than 100 sales books and leads day-to-day sales delivery with relentless energy.",
+    slug: "joakim",
+    avatar: "/images/team/team-joakim.webp",
+  },
+  {
+    num: "/04",
+    roleTag: "Team Lead & Senior Appointment Setter",
+    name: "Johanna Glaad",
+    desc: "Leads the daily SDR teams and onboarding with an uncompromising focus on show rate and high meeting quality for Nordic enterprise and SaaS clients.",
+    slug: "johanna",
+    avatar: "/images/team/team-johanna.webp",
+  },
+  {
+    num: "/05",
+    roleTag: "Senior Appointment Setter & Key Account",
+    name: "Joakim Lundin",
+    desc: "Top seller with years of experience booking complex meetings with CEOs and IT leaders across Swedish tech, manufacturing and real estate.",
+    slug: "lundin",
+    avatar: "/images/team/team-lundin.webp",
+  },
+  {
+    num: "/06",
+    roleTag: "Senior Appointment Setter & SDR",
+    name: "Kevin Eriksson",
+    desc: "Specialist in data-driven outreach and fast appointment setting with Nordic decision-makers in IT, software and industrial tech.",
+    slug: "kevin",
+    avatar: "/images/team/team-kevin.webp",
+  },
+];
+
+const COPY = {
+  sv: {
+    leaders: LEADERS,
+    hubs: "STOCKHOLM (ÖSTERMALM) · SLIEMA (12TH FLOOR, MALTA)",
+    experience: "10 000H+ ERFARENHET",
+    h2a: "Människorna bakom",
+    h2b: "hundratals miljoner.",
+    intro: "Från en villa på Malta 2017 till en av Nordens mest högpresterande mötesbokningsbyråer för IT och SaaS. Våra partners sitter inte på läktaren — de coachar, utvecklar metoden och leder varje uppdrag med samma kompromisslösa säljhantverk.",
+    stat1Value: ">250k",
+    stat1: "Toppsytt/mån",
+    stat2Value: "10 000h",
+    stat2: "Snitt säljerfarenhet",
+    stat3Value: "8+ år",
+    stat3: "I produktion",
+    profile: "Profil & Kalender",
+  },
+  en: {
+    leaders: LEADERS_EN,
+    hubs: "STOCKHOLM (ÖSTERMALM) · SLIEMA (12TH FLOOR, MALTA)",
+    experience: "10,000H+ EXPERIENCE",
+    h2a: "The people behind",
+    h2b: "hundreds of millions.",
+    intro: "From a villa in Malta in 2017 to one of the Nordics' highest-performing appointment setting agencies for IT and SaaS. Our partners don't watch from the sidelines — they coach, refine the method and lead every engagement with the same uncompromising sales craft.",
+    stat1Value: ">250k",
+    stat1: "Top sales/mo",
+    stat2Value: "10,000h",
+    stat2: "Avg. sales experience",
+    stat3Value: "8+ yrs",
+    stat3: "In production",
+    profile: "Profile & Calendar",
+  },
+};
+
 export const LeadershipCardsSection: React.FC = () => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const t = COPY[useLocale()];
+  const lh = useLocalizedHref();
 
   return (
     <section
@@ -97,41 +184,41 @@ export const LeadershipCardsSection: React.FC = () => {
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6 mb-8 sm:mb-12">
             <div className="inline-flex items-center gap-2.5 text-[11px] font-mono tracking-widest text-neutral-300 uppercase">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>STOCKHOLM (ÖSTERMALM) · SLIEMA (12TH FLOOR, MALTA)</span>
+              <span>{t.hubs}</span>
             </div>
             <div className="flex items-center gap-4 sm:gap-6 text-[11px] font-mono tracking-widest text-neutral-500 uppercase">
               <span>EST. 2017</span>
               <span>·</span>
-              <span>10 000H+ ERFARENHET</span>
+              <span>{t.experience}</span>
             </div>
           </div>
 
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 sm:gap-16">
             <div className="max-w-4xl">
               <h2 className="text-4xl sm:text-6xl lg:text-[76px] xl:text-[84px] font-medium tracking-tight text-white leading-[1.02]">
-                <span className="block">Människorna bakom</span>
+                <span className="block">{t.h2a}</span>
                 <span className="block text-neutral-400 font-normal mt-1.5 sm:mt-2.5">
-                  hundratals miljoner.
+                  {t.h2b}
                 </span>
               </h2>
             </div>
 
             <div className="max-w-md flex flex-col gap-4">
               <p className="text-neutral-300 text-base sm:text-lg font-normal leading-relaxed">
-                Från en villa på Malta 2017 till en av Nordens mest högpresterande mötesbokningsbyråer för IT och SaaS. Våra partners sitter inte på läktaren — de coachar, utvecklar metoden och leder varje uppdrag med samma kompromisslösa säljhantverk.
+                {t.intro}
               </p>
               <div className="flex items-center gap-6 pt-4 border-t border-white/10 text-xs font-mono text-neutral-400">
                 <div>
-                  <span className="text-white font-semibold text-base sm:text-lg block">&gt;250k</span>
-                  <span className="text-[10px] uppercase text-neutral-500">Toppsytt/mån</span>
+                  <span className="text-white font-semibold text-base sm:text-lg block">{t.stat1Value}</span>
+                  <span className="text-[10px] uppercase text-neutral-500">{t.stat1}</span>
                 </div>
                 <div className="border-l border-white/10 pl-6">
-                  <span className="text-white font-semibold text-base sm:text-lg block">10 000h</span>
-                  <span className="text-[10px] uppercase text-neutral-500">Snitt säljerfarenhet</span>
+                  <span className="text-white font-semibold text-base sm:text-lg block">{t.stat2Value}</span>
+                  <span className="text-[10px] uppercase text-neutral-500">{t.stat2}</span>
                 </div>
                 <div className="border-l border-white/10 pl-6">
-                  <span className="text-white font-semibold text-base sm:text-lg block">8+ år</span>
-                  <span className="text-[10px] uppercase text-neutral-500">I produktion</span>
+                  <span className="text-white font-semibold text-base sm:text-lg block">{t.stat3Value}</span>
+                  <span className="text-[10px] uppercase text-neutral-500">{t.stat3}</span>
                 </div>
               </div>
             </div>
@@ -140,13 +227,13 @@ export const LeadershipCardsSection: React.FC = () => {
 
         {/* ── DE 6 MÖRKA KORTEN (Arkitektonisk precision) ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 relative z-20">
-          {LEADERS.map((leader, idx) => {
+          {t.leaders.map((leader, idx) => {
             const isHovered = hoveredIdx === idx;
 
             return (
               <Link
                 key={leader.name}
-                href={`/ledning/${leader.slug}`}
+                href={lh(`/ledning/${leader.slug}`)}
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
                 className="group relative rounded-2xl overflow-hidden flex flex-col justify-between p-7 sm:p-8 border border-white/[0.08] bg-[#0C0C0E]/80 backdrop-blur-xl transition-all duration-500 hover:border-white/25 hover:bg-[#121215]/95 hover:-translate-y-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] hover:shadow-[0_24px_60px_rgba(0,0,0,0.85)] min-h-[460px] sm:min-h-[490px]"
@@ -185,7 +272,7 @@ export const LeadershipCardsSection: React.FC = () => {
 
                 {/* ── BOTTEN: Länkpil & CTA ── */}
                 <div className="pt-5 mt-6 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono uppercase tracking-widest text-neutral-400 group-hover:text-white transition-colors">
-                  <span>Profil &amp; Kalender</span>
+                  <span>{t.profile}</span>
                   <div className="w-7 h-7 rounded-full bg-white/[0.05] border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300">
                     <ArrowUpRight className="w-3.5 h-3.5 group-hover:text-black transition-colors" />
                   </div>

@@ -7,6 +7,28 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { AuraBackground } from "@/components/ui/AuraBackground";
+import { useLocale, useLocalizedHref } from "@/i18n/useLocale";
+
+const COPY = {
+  sv: {
+    chip: "Pilotmodell: 3 månaders test, 10–100 möten i månaden",
+    h1a: "Vi bygger B2B-pipelines ",
+    h1b: "för IT- och SaaS-bolag ",
+    h1c: "— snabbt.",
+    sub: "Vi kombinerar LinkedIn, e-post och personlig telefonuppföljning för att identifiera köpintention – och bokar endast möten med beslutsfattare som faktiskt visat intresse för det ni säljer.",
+    ctaPilot: "Se pilotmodellen",
+    ctaBook: "Boka möte",
+  },
+  en: {
+    chip: "Pilot model: 3-month trial, 10–100 meetings per month",
+    h1a: "We build B2B pipelines ",
+    h1b: "for IT and SaaS companies ",
+    h1c: "— fast.",
+    sub: "We combine LinkedIn, email and personal phone follow-up to identify buying intent – and only book meetings with decision-makers who have actually shown interest in what you sell.",
+    ctaPilot: "See the pilot model",
+    ctaBook: "Book a meeting",
+  },
+} as const;
 
 const CLIENT_LOGOS = [
   { name: "AVEVA", label: "AVEVA" },
@@ -17,6 +39,8 @@ const CLIENT_LOGOS = [
 ];
 
 export const HeroCentered: React.FC = () => {
+  const t = COPY[useLocale()];
+  const lh = useLocalizedHref();
   return (
     <section className="relative h-[100dvh] min-h-[750px] w-full flex flex-col justify-between overflow-hidden bg-[#0D0D0D] text-white pt-28 pb-10 sm:pb-12 border-b border-[#1F1F1F]">
       
@@ -33,9 +57,9 @@ export const HeroCentered: React.FC = () => {
           {/* Top Status Notification Chip */}
           <Reveal delay={0.1} yOffset={20}>
             <div className="mb-6 sm:mb-8">
-              <Link href="/#process">
+              <Link href={lh("/#process")}>
                 <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/[0.12] border border-white/15 transition-all text-xs sm:text-[13px] text-[#EDEDED] font-medium cursor-pointer">
-                  <span>Pilotmodell: 3 månaders test, 10–100 möten i månaden</span>
+                  <span>{t.chip}</span>
                   <ArrowRight size={13} className="text-[#7851A9]" />
                 </div>
               </Link>
@@ -45,16 +69,16 @@ export const HeroCentered: React.FC = () => {
           {/* Main Headline (V1 Editorial Text) */}
           <Reveal delay={0.2} yOffset={25}>
             <h1 className="text-4xl sm:text-6xl lg:text-[70px] font-normal tracking-tight text-white leading-[1.08] mb-6 sm:mb-8">
-              Vi bygger B2B-pipelines <br className="hidden sm:block" />
-              för IT- och SaaS-bolag <br className="hidden sm:block" />
-              — snabbt.
+              {t.h1a}<br className="hidden sm:block" />
+              {t.h1b}<br className="hidden sm:block" />
+              {t.h1c}
             </h1>
           </Reveal>
 
           {/* Subheadline (Pontus Feedback: LinkedIn, e-post och telefonuppföljning) */}
           <Reveal delay={0.3} yOffset={20}>
             <p className="text-base sm:text-lg lg:text-[20px] text-white font-normal leading-[1.6] max-w-2xl mb-8 sm:mb-10 text-white/95">
-              Vi kombinerar LinkedIn, e-post och personlig telefonuppföljning för att identifiera köpintention – och bokar endast möten med beslutsfattare som faktiskt visat intresse för det ni säljer.
+              {t.sub}
             </p>
           </Reveal>
 
@@ -68,7 +92,7 @@ export const HeroCentered: React.FC = () => {
                 hasArrow
                 className="bg-white text-black hover:bg-[#EDEDED]"
               >
-                Se pilotmodellen
+                {t.ctaPilot}
               </Button>
               
               <Button
@@ -78,7 +102,7 @@ export const HeroCentered: React.FC = () => {
                 hasArrow
                 className="bg-[#7851A9] hover:bg-[#684196] text-white"
               >
-                Boka möte
+                {t.ctaBook}
               </Button>
             </div>
           </Reveal>

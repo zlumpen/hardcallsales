@@ -15,6 +15,8 @@ import {
   Calendar,
 } from "lucide-react";
 import { openCalModal } from "@/components/cal/CalProvider";
+import { useLocale } from "@/i18n/useLocale";
+import type { Locale } from "@/i18n/config";
 
 interface WorkflowPill {
   id: string;
@@ -24,42 +26,101 @@ interface WorkflowPill {
   description: string;
 }
 
-const workflowPills: WorkflowPill[] = [
-  {
-    id: "prospect",
-    label: "Prospektering",
-    icon: <Globe className="w-3.5 h-3.5 text-neutral-400" />,
-    tag: "# 100M+ Profiler",
-    description:
-      "Autonoma agenter identifierar och berikar verifierade beslutsfattare bland 100M+ globala B2B-profiler.",
+const PILL_ICONS: Record<string, React.ReactNode> = {
+  prospect: <Globe className="w-3.5 h-3.5 text-neutral-400" />,
+  multichannel: <Zap className="w-3.5 h-3.5 text-neutral-400" />,
+  ai: <Bot className="w-3.5 h-3.5 text-[#38BDF8]" />,
+  closing: <PhoneCall className="w-3.5 h-3.5 text-neutral-400" />,
+};
+
+const PILL_COPY: Record<Locale, Omit<WorkflowPill, "icon">[]> = {
+  sv: [
+    {
+      id: "prospect",
+      label: "Prospektering",
+      tag: "# 100M+ Profiler",
+      description:
+        "Autonoma agenter identifierar och berikar verifierade beslutsfattare bland 100M+ globala B2B-profiler.",
+    },
+    {
+      id: "multichannel",
+      label: "Multikanal",
+      tag: "# Smart Sekvens",
+      description:
+        "Sekvenser över LinkedIn och hyper-personaliserad e-post synkroniseras med millisekunds precision.",
+    },
+    {
+      id: "ai",
+      label: "AI Dialog",
+      tag: "# Kvalificerad SQL",
+      description:
+        "Världens första AI-säljagent för en naturlig dialog, bemöter invändningar och väcker genuint köpintresse.",
+    },
+    {
+      id: "closing",
+      label: "Bokat Möte",
+      tag: "# Bokat i Kalender",
+      description:
+        "När intresset är väckt kliver våra seniora telefonsäljare in och stänger mötet direkt i er kalender.",
+    },
+  ],
+  en: [
+    {
+      id: "prospect",
+      label: "Prospecting",
+      tag: "# 100M+ Profiles",
+      description:
+        "Autonomous agents identify and enrich verified decision-makers across 100M+ global B2B profiles.",
+    },
+    {
+      id: "multichannel",
+      label: "Multichannel",
+      tag: "# Smart Sequence",
+      description:
+        "LinkedIn sequences and hyper-personalized email, synchronized with millisecond precision.",
+    },
+    {
+      id: "ai",
+      label: "AI Dialogue",
+      tag: "# Qualified SQL",
+      description:
+        "The world's first AI sales agent for natural dialogue: it handles objections and sparks genuine buying intent.",
+    },
+    {
+      id: "closing",
+      label: "Meeting Booked",
+      tag: "# Booked in Calendar",
+      description:
+        "Once interest is sparked, our senior phone reps step in and lock the meeting straight into your calendar.",
+    },
+  ],
+};
+
+const COPY = {
+  sv: {
+    portalAlt: "LinkedClient 3D Aperture Portal",
+    eyebrow: "Världens första AI-Sales agent:",
+    headline: "Framtiden är äntligen här och knackar på.",
+    lead: "När vi kombinerar autonom AI-outreach med traditionella cold calls bokar vi nykundsmöten som i mycket högre grad leder till affärer.",
+    addTab: "Add tab",
+    cta: "Boka en live-demo",
+    badge: "Certified LinkedClient Partner",
   },
-  {
-    id: "multichannel",
-    label: "Multikanal",
-    icon: <Zap className="w-3.5 h-3.5 text-neutral-400" />,
-    tag: "# Smart Sekvens",
-    description:
-      "Sekvenser över LinkedIn och hyper-personaliserad e-post synkroniseras med millisekunds precision.",
+  en: {
+    portalAlt: "LinkedClient 3D aperture portal",
+    eyebrow: "The world's first AI sales agent:",
+    headline: "The future is finally here, and it's knocking.",
+    lead: "By combining autonomous AI outreach with traditional cold calling, we book new-business meetings that are far more likely to turn into deals.",
+    addTab: "Add tab",
+    cta: "Book a live demo",
+    badge: "Certified LinkedClient Partner",
   },
-  {
-    id: "ai",
-    label: "AI Dialog",
-    icon: <Bot className="w-3.5 h-3.5 text-[#38BDF8]" />,
-    tag: "# Kvalificerad SQL",
-    description:
-      "Världens första AI-säljagent för en naturlig dialog, bemöter invändningar och väcker genuint köpintresse.",
-  },
-  {
-    id: "closing",
-    label: "Bokat Möte",
-    icon: <PhoneCall className="w-3.5 h-3.5 text-neutral-400" />,
-    tag: "# Bokat i Kalender",
-    description:
-      "När intresset är väckt kliver våra seniora telefonsäljare in och stänger mötet direkt i er kalender.",
-  },
-];
+} as const;
 
 export const LinkedClientHero: React.FC = () => {
+  const locale = useLocale();
+  const t = COPY[locale];
+  const workflowPills: WorkflowPill[] = PILL_COPY[locale].map((p) => ({ ...p, icon: PILL_ICONS[p.id] }));
   const [activePillId, setActivePillId] = useState<string>("ai");
   const activePill = workflowPills.find((p) => p.id === activePillId) || workflowPills[2];
 
@@ -70,7 +131,7 @@ export const LinkedClientHero: React.FC = () => {
         <div className="relative w-full h-full">
           <Image
             src="/images/linkedclient-portal.jpg"
-            alt="LinkedClient 3D Aperture Portal"
+            alt={t.portalAlt}
             fill
             priority
             className="object-contain object-right"
@@ -84,18 +145,18 @@ export const LinkedClientHero: React.FC = () => {
           {/* Eyebrow in Magenta-to-Cyan Gradient */}
           <div className="inline-flex items-center mb-3">
             <span className="text-sm sm:text-base lg:text-lg font-medium tracking-tight bg-gradient-to-r from-[#F43F5E] via-[#D946EF] to-[#38BDF8] bg-clip-text text-transparent">
-              Världens första AI-Sales agent:
+              {t.eyebrow}
             </span>
           </div>
 
           {/* Primary Display Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-[54px] xl:text-[58px] font-normal tracking-tight text-white leading-[1.12] mb-6">
-            Framtiden är äntligen här och knackar på.
+            {t.headline}
           </h1>
 
           {/* Single clean lead paragraph */}
           <p className="text-base sm:text-lg text-neutral-400 font-light leading-relaxed mb-8 max-w-xl">
-            När vi kombinerar autonom AI-outreach med traditionella cold calls bokar vi nykundsmöten som i mycket högre grad leder till affärer.
+            {t.lead}
           </p>
 
           {/* --- FLOATING DARK UI WINDOW (1:1 with reference) --- */}
@@ -131,7 +192,7 @@ export const LinkedClientHero: React.FC = () => {
                 <button
                   type="button"
                   className="text-neutral-500 hover:text-white transition-colors p-0.5"
-                  aria-label="Add tab"
+                  aria-label={t.addTab}
                 >
                   <Plus className="w-3 h-3" />
                 </button>
@@ -175,13 +236,13 @@ export const LinkedClientHero: React.FC = () => {
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-white text-black font-semibold text-sm hover:bg-neutral-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)] active:scale-[0.98]"
             >
               <Calendar className="w-4 h-4 text-black" />
-              <span>Boka en live-demo</span>
+              <span>{t.cta}</span>
               <ArrowRight className="w-3.5 h-3.5 text-black" />
             </button>
 
             <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-emerald-500/[0.08] border border-emerald-500/30 text-emerald-400 text-xs font-mono">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Certified LinkedClient Partner</span>
+              <span>{t.badge}</span>
             </div>
           </div>
         </div>

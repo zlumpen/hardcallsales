@@ -1,4 +1,5 @@
 import { ServiceItem } from "@/types";
+import type { Locale } from "@/i18n/config";
 
 export const SERVICES: ServiceItem[] = [
   {
@@ -132,3 +133,140 @@ export const SERVICES: ServiceItem[] = [
       "Data- och säljdrivna organisationer som vill automatisera prospektering utifrån skarpa köpsignaler och eliminera manuell CRM-administration.",
   },
 ];
+
+export const SERVICES_EN: ServiceItem[] = [
+  {
+    id: "motesbokning",
+    number: "01",
+    title: "Meetings with decision-makers",
+    shortDesc: "We make the call, you take the meeting. 10–100 booked meetings per month, with the right person.",
+    fullDesc:
+      "We help IT and SaaS companies book meetings with the right decision-makers — in any industry, in any country. Our appointment setters bring an average of more than 10,000 hours of sales experience. We call relevant prospects using a tailored script built around your unique value proposition.",
+    kicker: "3-month pilot",
+    icon: "CalendarCheck",
+    isDarkFeatured: true,
+    methodology:
+      "Structured outbound calling combined with a deep understanding of tech offerings. We handle objections professionally and qualify every meeting against the criteria you set.",
+    deliverables: [
+      "10–100 qualified meetings per month",
+      "Booked directly into your sales reps' calendars",
+      "Tailored scripts and objection-handling matrices",
+      "Rebooking guarantee for no-shows at no extra cost",
+    ],
+    tools: ["Google Meet", "Teams", "Calendly", "HubSpot", "Salesforce"],
+    targetPersona:
+      "CEOs, CROs & Sales Directors at IT/SaaS companies who want to fill their calendars with 10–100 qualified decision-makers per month — without the risk of hiring in-house.",
+  },
+  {
+    id: "kampanjer",
+    number: "02",
+    title: "Email & LinkedIn campaigns",
+    shortDesc: "Sequences that reach 100+ million decision-makers.",
+    fullDesc:
+      "Targeted email and LinkedIn sequences and campaigns that reach 100+ million decision-makers across every industry and geography. We craft highly relevant, personalized messages and combine them with our own network of more than 70,000 LinkedIn decision-makers.",
+    kicker: "100M+ contacts",
+    icon: "Mail",
+    methodology:
+      "Data-driven copywriting with hyper-personalization, A/B testing of subject lines and sequences, plus advanced domain and inbox warm-up for the highest possible deliverability.",
+    deliverables: [
+      "Multi-step email and LinkedIn sequences",
+      "A/B-tested copy variants optimized for replies",
+      "Domain protection with SPF, DKIM and DMARC",
+      "Detailed reply and conversion analytics",
+    ],
+    tools: ["LinkedIn Sales Navigator", "Smartlead", "Instantly", "Lemlist"],
+    targetPersona:
+      "Commercial leaders & Growth Leads who want to break into new markets and reach 100M+ decision-makers with high precision and domain security.",
+  },
+  {
+    id: "telefon",
+    number: "03",
+    title: "Phone follow-up & sales support",
+    shortDesc: "Sales support that closes the loop after the campaign.",
+    fullDesc:
+      "When someone shows interest in an email sequence or on LinkedIn, our experienced sales team takes over and follows up by phone. Warm signals are quickly converted into booked meetings before interest cools off.",
+    kicker: "Sales support",
+    icon: "PhoneCall",
+    methodology:
+      "Rapid response to buying signals (clicks, opens, LinkedIn profile views). Our SDRs call with full context on the prospect's previous interactions.",
+    deliverables: [
+      "Follow-up within minutes/hours on warm signals",
+      "Closes information loops and answers questions",
+      "Reduces lead drop-off by up to 60%",
+      "Weekly reporting on call outcomes and feedback",
+    ],
+    tools: ["Aircall", "Salesloft", "HubSpot Calling", "VoiP"],
+    targetPersona:
+      "Sales teams with inbound or warm leads who need fast response times and want to close the loop immediately with professional phone calls.",
+  },
+  {
+    id: "natverk",
+    number: "04",
+    title: "Networking & prospecting",
+    shortDesc: "Prospecting and relationships before the pitch.",
+    fullDesc:
+      "We identify relevant decision-makers in your target audience and build strategic networks on autopilot. Relationships are established and nurtured before any formal sales pitch takes place, building trust and warmth.",
+    kicker: "Prospecting",
+    icon: "Network",
+    methodology:
+      "Ongoing ICP (Ideal Customer Profile) mapping combined with soft, value-driven networking. Every month, hundreds of new relevant decision-makers are added to your network.",
+    deliverables: [
+      "A steady flow of relevant network connections",
+      "Brand awareness built among key stakeholders",
+      "Segmented contact lists exported to your CRM",
+      "Full transparency into who is being contacted",
+    ],
+    tools: ["Apollo.io", "LinkedIn Sales Navigator", "Clay", "ZoomInfo"],
+    targetPersona:
+      "B2B tech companies with longer sales cycles who want to build trust and strategic relationships with key decision-makers before the pitch.",
+  },
+  {
+    id: "pilotmodellen",
+    number: "05",
+    title: "Pilot model",
+    statNumber: "10–100",
+    statLabel: "meetings per month",
+    shortDesc: "The pilot model: six steps, a three-month test. You see the results before you commit.",
+    fullDesc:
+      "Our proven 3-month pilot model lets you evaluate what we can deliver without long lock-in periods or large upfront investments. We handle everything from workshop to outreach, booking and the final ROI evaluation.",
+    kicker: "No lock-in",
+    icon: "Target",
+    isPurpleFeatured: true,
+    methodology:
+      "A structured 6-step framework that minimizes risk and maximizes transparency. After 3 months you have exact data on cost per meeting and expected business value.",
+    deliverables: [
+      "3-month structured test period",
+      "Guaranteed 10–100 booked meetings per month",
+      "Weekly check-ins and live reports",
+      "Comprehensive final report with concrete scaling recommendations",
+    ],
+    tools: ["Pilot KPI Tracker", "Looker Studio", "Slack Connect", "Notion Hub"],
+    targetPersona:
+      "Business leaders and tech founders who want to verify results and ROI over 3 months before committing to a long-term partnership.",
+  },
+  {
+    id: "segmentering",
+    number: "06",
+    title: "AI-driven segmentation & CRM",
+    shortDesc: "Audiences that build themselves. Plus CRM integration.",
+    fullDesc:
+      "Using machine learning, we identify buying signals such as key hires, technology shifts, funding rounds or expansion. At the same time, we seamlessly connect calendars and CRM so everything lands where you already work.",
+    kicker: "AI & CRM",
+    icon: "Workflow",
+    methodology:
+      "Real-time monitoring of market signals combined with two-way CRM sync. Eliminates duplicate work and ensures 100% data quality in your sales system.",
+    deliverables: [
+      "Dynamic audience lists based on triggers",
+      "Two-way integration with HubSpot, Salesforce, Pipedrive",
+      "Automated calendar booking and meeting confirmations",
+      "Data enrichment with direct dials and verified email addresses",
+    ],
+    tools: ["HubSpot", "Salesforce", "Pipedrive", "Zapier", "Make", "OpenAI"],
+    targetPersona:
+      "Data- and sales-driven organizations that want to automate prospecting based on sharp buying signals and eliminate manual CRM admin.",
+  },
+];
+
+export function getServices(locale: Locale): ServiceItem[] {
+  return locale === "en" ? SERVICES_EN : SERVICES;
+}
