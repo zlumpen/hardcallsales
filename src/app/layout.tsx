@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { CommunityFooter } from "@/components/sections/CommunityFooter";
@@ -46,6 +47,8 @@ export default function RootLayout({
           <main className="flex-1 w-full">{children}</main>
           <CommunityFooter />
         </SmoothScroll>
+        {/* Vercel Web Analytics – cookiefri besöksstatistik */}
+        <Script src="/_vercel/insights/script.js" strategy="afterInteractive" />
       </body>
     </html>
   );
