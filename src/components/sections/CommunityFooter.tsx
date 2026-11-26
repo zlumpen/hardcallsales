@@ -1,17 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { ArrowUpRight, Check } from "lucide-react";
 import { useLocale, useLocalizedHref } from "@/i18n/useLocale";
 
 const COPY = {
   sv: {
-    headline: "HÅLL KONTAKTEN!",
-    sub: "Få konkreta tips om mötesbokning, prospektering och pipeline – direkt i inkorgen.",
-    thanks: "Tack! Du är nu uppskriven.",
-    placeholder: "Din mejladress",
-    subscribe: "Prenumerera",
     explore: "UTFORSKA",
     home: "Hem",
     cases: "Case",
@@ -24,11 +18,6 @@ const COPY = {
     terms: "Villkor",
   },
   en: {
-    headline: "STAY IN TOUCH!",
-    sub: "Get practical tips on appointment setting, prospecting and pipeline – straight to your inbox.",
-    thanks: "Thanks! You're now subscribed.",
-    placeholder: "Your email address",
-    subscribe: "Subscribe",
     explore: "EXPLORE",
     home: "Home",
     cases: "Cases",
@@ -45,14 +34,6 @@ const COPY = {
 export const CommunityFooter: React.FC = () => {
   const t = COPY[useLocale()];
   const lh = useLocalizedHref();
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) setSubscribed(true);
-  };
-
   return (
     <footer className="w-full bg-[#080808] text-white border-t border-[#1C1C1C] relative overflow-hidden min-h-[620px] flex flex-col justify-between">
       
@@ -74,47 +55,9 @@ export const CommunityFooter: React.FC = () => {
       {/* Main Content Container: max-w-[1720px] wide canvas */}
       <div className="max-w-[1720px] w-full mx-auto px-8 sm:px-14 lg:px-20 relative z-10 flex-1 flex flex-col justify-between pt-24 sm:pt-28 pb-12 gap-20 sm:gap-24">
         
-        {/* Top Row: Left HÅLL KONTAKTEN! + Right 3 Columns */}
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-16 w-full">
+        {/* Top Row: 3 navigation columns */}
+        <div className="flex flex-col lg:flex-row lg:justify-end items-start gap-12 lg:gap-16 w-full">
           
-          {/* Left: Headline + Subtitle + Underline Input */}
-          <div className="max-w-md w-full">
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-white tracking-tight uppercase leading-none mb-4 sm:mb-5">
-              {t.headline}
-            </h2>
-            <p className="text-xs sm:text-[13px] text-[#8E8E8E] leading-relaxed max-w-sm mb-8 sm:mb-10">
-              {t.sub}
-            </p>
-
-            {/* Underline Newsletter Input with arrow */}
-            <form onSubmit={handleSubscribe} className="relative max-w-xs sm:max-w-sm w-full">
-              {subscribed ? (
-                <div className="flex items-center gap-2 text-xs text-[#7851A9] py-2 font-medium">
-                  <Check size={14} />
-                  <span>{t.thanks}</span>
-                </div>
-              ) : (
-                <div className="relative">
-                  <input
-                    type="email"
-                    required
-                    placeholder={t.placeholder}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-transparent border-b border-white/20 pb-2.5 pt-1 text-xs text-white placeholder:text-[#555555] focus:border-white focus:outline-none transition-colors pr-8"
-                  />
-                  <button
-                    type="submit"
-                    aria-label={t.subscribe}
-                    className="absolute right-0 bottom-2.5 text-[#777777] hover:text-white transition-colors cursor-pointer"
-                  >
-                    <ArrowUpRight size={15} />
-                  </button>
-                </div>
-              )}
-            </form>
-          </div>
-
           {/* Right: 3 Navigation & Info Columns (UTFORSKA, SOCIALT, KONTAKT) pushed far right */}
           <div className="w-full lg:w-auto grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12 lg:gap-16">
             
